@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "MediMindAi-FE": {
+    "MediMindAi": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MediMindAi-FE:build:production"
+              "buildTarget": "MediMindAi:build:production"
             },
             "development": {
-              "buildTarget": "MediMindAi-FE:build:development"
+              "buildTarget": "MediMindAi:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "MediMindAi-FE:build"
+            "buildTarget": "MediMindAi:build"
           }
         },
         "test": {
