@@ -1,0 +1,18 @@
+<ul class="side-nav">
+  <li class="logo" (click)="onLogoClick()">
+    <img src="assets/images/logo.svg" alt="MediMindAi" />
+  </li>
+  <li
+    class="menu-item"
+    (click)="onMenuClick(menuItem)"
+    *ngFor="let menuItem of menuItems"
+    [ngClass]="{ active: isRouteSelected(menuItem) }"
+  >
+    <img
+      src="{{
+        isRouteSelected(menuItem) ? menuItem.selectedIcon : menuItem.icon
+      }}"
+      alt="{{ menuItem.name }}"
+    />
+  </li>
+</ul>

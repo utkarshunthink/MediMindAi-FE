@@ -1,21 +1,35 @@
 import { Routes } from '@angular/router';
-import { LandingPage } from './pages/landing/landing.page';
 
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/landing/landing.page').then((p) => p.LandingPage),
+    loadComponent: () =>
+      import('./pages/landing/landing.page').then((p) => p.LandingPage),
   },
   {
     path: 'home',
-    loadComponent: () => import('./pages/home/home.page').then((p) => p.HomePage),
+    loadComponent: () =>
+      import('./pages/home/home.page').then((p) => p.HomePage),
     children: [
-      { 
-        path: '', 
-        loadComponent: () => import('./pages/dashboard/dashboard.page').then((p) => p.DashboardPage)
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.page').then(
+            (p) => p.DashboardPage
+          ),
+      },
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./pages/coming-soon/coming-soon.page').then(
+            (m) => m.ComingSoonPage
+          ),
       },
     ],
   },
-  { path: 'landing', component: LandingPage },
-  { path: '**', component: LandingPage }
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./pages/not-found/not-found.page').then((m) => m.NotFoundPage),
+  },
 ];
