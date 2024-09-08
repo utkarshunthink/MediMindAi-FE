@@ -1,0 +1,146 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 60% 40%;
+}
+
+.right {
+  background-color: #303030;
+  padding: 30px;
+  .header {
+    width: 100%;
+    span {
+      font-size: 22px;
+      color: #ffffff;
+    }
+  }
+}
+
+.bmi {
+  gap: 15px;
+  display: grid;
+  margin-top: 30px;
+  grid-template-columns: 40% 60%;
+}
+
+.physique {
+  gap: 15px;
+  display: grid;
+  grid-template-columns: auto;
+  .height-weight {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    border-radius: 12px;
+    img {
+      width: 70%;
+    }
+    .height-weight-value {
+      color: #272927;
+      display: flex;
+      width: 100%;
+      font-size: 16px;
+      position: relative;
+      align-items: center;
+      justify-content: space-between;
+      span {
+        right: 75px;
+        position: absolute;
+      }
+    }
+    &.height {
+      background-color: #f8debd;
+    }
+    &.weight {
+      background-color: #d0fbff;
+    }
+  }
+}
+
+.bmi-scale {
+  gap: 15px;
+  padding: 15px;
+  display: grid;
+  color: #ffffff;
+  border-radius: 12px;
+  background-color: #4a4949;
+  grid-template-columns: auto;
+  .bmi-title {
+    font-size: 16px;
+  }
+  .bmi-value-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .bmi-value {
+      font-size: 24px;
+    }
+    .bmi-status {
+      background-color: #d6ffdd;
+      border-radius: 8px;
+      padding: 5px 10px;
+      color: #000000;
+      font-size: 12px;
+    }
+  }
+}
+
+.divider {
+  height: 1px;
+  margin-top: 30px;
+  background-color: #4f4e4e;
+}
+
+.measurements-container {
+  display: flex;
+  margin-top: 30px;
+  justify-content: space-between;
+}
+
+.measurements {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  .measurements-header {
+    display: flex;
+    color: #ffffff;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+    .title {
+      font-size: 22px;
+    }
+    .body-type {
+      font-size: 14px;
+      padding: 5px 10px;
+      border-radius: 8px;
+      background-color: #5e5e5e;
+    }
+  }
+  .measurements-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
+    .measurements-detail {
+      padding: 30px;
+      border-radius: 12px;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      label {
+        color: #5f5f5f;
+        font-size: 16px;
+      }
+      span {
+        font-size: 24px;
+        color: #000000;
+      }
+    }
+  }
+}
