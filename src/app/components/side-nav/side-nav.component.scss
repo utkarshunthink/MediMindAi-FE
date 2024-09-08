@@ -1,0 +1,27 @@
+.side-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  margin-top: 54px;
+  display: grid;
+  gap: 40px;
+  li {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 66px;
+    cursor: pointer;
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    &.active {
+      img {
+        background-color: #000000;
+        border-radius: 12px;
+        padding: 18px;
+      }
+    }
+  }
+}

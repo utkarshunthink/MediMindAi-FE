@@ -1,0 +1,8 @@
+.home-page {
+  display: grid;
+  grid-template-columns: 100px calc(100% - 100px);
+}
+
+.main-content {
+  background-color: var(--secondary-color);
+}
