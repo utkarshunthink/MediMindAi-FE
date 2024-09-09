@@ -1,0 +1,20 @@
+<div class="signup-card">
+  <h3 class="signup-title">{{ titles.signup }}</h3>
+  <div class="input-field text">
+    <input type="text" [placeholder]="titles.fullname" />
+  </div>
+  <div class="input-field email">
+    <input type="email" [placeholder]="titles.email" />
+  </div>
+  <div class="input-field password">
+    <input type="password" [placeholder]="titles.password" />
+  </div>
+  <div class="input-field password">
+    <input type="password" [placeholder]="titles.confirmPassword" />
+  </div>
+  <button class="primary-btn">{{ buttons.register }}</button>
+  <div class="switch-to-signup">
+    <p>{{ paragraphs.alreadyHaveAcc }}</p>
+    <h4 (click)="navigateTo()">{{ titles.signin }}</h4>
+  </div>
+</div>

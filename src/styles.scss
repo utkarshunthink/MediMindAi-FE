@@ -28,6 +28,11 @@ p{
     margin: 0px;
 }
 
+input{
+  margin: 0px;
+  padding: 0px;
+}
+
 .primary-btn{
     background-color: var(--primary-color);
     height: 64px;
@@ -41,3 +46,9 @@ p{
     cursor: pointer;
 }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.divider{
+  background: var(--white-shade);
+  margin: 45px 0px;
+  height: 1px;
+}
