@@ -2,30 +2,30 @@
   <section class="left"></section>
   <section class="right">
     <div class="header">
-      <span>Body Mass Index (BMI)</span>
+      <span>{{titles.bmi}}</span>
     </div>
     <div class="bmi">
       <div class="physique">
         <div class="height-weight height">
-          <img src="assets/images/scale.svg" alt="" />
+          <img [src]="images.scale" alt="" />
           <div class="height-weight-value">
-            <label>Height</label>
+            <label>{{titles.height}}</label>
             <span>170 cm</span>
           </div>
         </div>
         <div class="height-weight weight">
-          <img src="assets/images/scale.svg" alt="" />
+          <img [src]="images.scale" alt="" />
           <div class="height-weight-value">
-            <label>Weight</label>
+            <label>{{titles.weight}}</label>
             <span>72 kg</span>
           </div>
         </div>
       </div>
       <div class="bmi-scale">
-        <span class="bmi-title">Body Mass Index</span>
+        <span class="bmi-title">{{titles.bodyMassIndex}}</span>
         <div class="bmi-value-container">
           <span class="bmi-value">24.9</span>
-          <span class="bmi-status">You're healthy</span>
+          <span class="bmi-status">{{titles.youAreHealthy}}</span>
         </div>
         <div class="bmi-progress">
           <mat-progress-bar
@@ -39,25 +39,25 @@
     <div class="measurements-container">
       <div class="measurements">
         <div class="measurements-header">
-          <span class="title">Body Measurements</span>
-          <span class="body-type">Inverted triangle body shape</span>
+          <span class="title">{{titles.bodyMeasurement}}</span>
+          <span class="body-type">{{titles.invertedTraingleShape}}</span>
         </div>
         <div class="measurements-details">
           <span class="measurements-detail chest">
-            <label>Chest (in)</label>
+            <label>{{titles.chest}}</label>
             <span>44.5</span>
           </span>
           <span class="measurements-detail waist">
-            <label>Waist (in)</label>
+            <label>{{titles.waist}}</label>
             <span>34</span>
           </span>
           <span class="measurements-detail hip">
-            <label>Hip (in)</label>
+            <label>{{titles.hip}}</label>
             <span>42.5</span>
           </span>
         </div>
       </div>
-      <img src="assets/images/human-body.svg" alt="" />
+      <img [src]="images.humanBody" alt="" />
     </div>
   </section>
 </div>

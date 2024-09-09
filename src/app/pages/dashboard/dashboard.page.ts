@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { IMAGES } from 'src/app/core/constants/images.constant';
+import { TITLES } from 'src/app/core/constants/title.constant';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +11,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage {
+  public titles = TITLES;
+  public images = IMAGES;
+
   getBmiProgressBarValue() {
     const inputValue = 24.9;
     const minScaleValue = 15;

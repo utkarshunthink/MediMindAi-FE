@@ -1,6 +1,7 @@
 import { NgClass, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { IMAGES } from 'src/app/core/constants/images.constant';
 import {
   SIDE_NAV_ICON_BASE_URL,
   SIDE_NAV_MENU_ITEMS,
@@ -15,6 +16,7 @@ import { SideNavMenuItem } from 'src/app/core/interfaces';
   styleUrls: ['./side-nav.component.scss'],
 })
 export class SideNavComponent implements OnInit {
+  public images = IMAGES;
   menuItems: SideNavMenuItem[] = [];
 
   constructor(private router: Router) {}
