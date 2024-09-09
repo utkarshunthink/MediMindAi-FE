@@ -19,4 +19,25 @@ button {
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+h1, h2, h3, h4, h5 {
+    margin: 0px;
+}
+
+p{
+    margin: 0px;
+}
+
+.primary-btn{
+    background-color: var(--primary-color);
+    height: 64px;
+    width: 100%;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--white-color);
+    border-radius: 12px;
+    border: 0;
+    outline: none;
+    cursor: pointer;
+}
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
