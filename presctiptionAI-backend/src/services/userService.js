@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs');
 const jwtHelper = require('../utils/jwtHelper');
 const ApiError = require('../utils/ApiError');
 const crypto = require('crypto');
-const moment = require('../../presctiptionAI-backend/node_modules/moment/ts3.1-typings/moment');
+const moment = require('moment');
 
 const register = async (userData) => {
     try {
-        const { username, email, password } = userData;
+        const { name, email, password } = userData;
         const existingUser = await userModel.findUserByEmail(email);
 
         if (existingUser) {
@@ -15,12 +15,13 @@ const register = async (userData) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await userModel.createUser({ username, email, password: hashedPassword });
+        const newUser = await userModel.createUser({ name, email, password: hashedPassword });
 
         const token = jwtHelper.generateToken({ id: newUser.id, email: newUser.email });
 
         return { user: newUser, token };
     } catch (error) {
+        console.error("🚀 ~ register ~ error:", error);
         throw new ApiError(error.message, error.statusCode || 500);
     }
 };

@@ -3,9 +3,10 @@ const successResponse = require('../middlewares/responseHandler');
 
 // Controller to register a new user
 const register = async (req, res, next) => {
-    const { username, email, password } = req.body;
-    const result = await userService.register({ username, email, password });
-    return successResponse(res, result, 'User registered successfully', 201);
+    const { name, email, password } = req.body;
+    return userService.register({ name, email, password })
+    .then((result) => successResponse(res, result, 'User registered successfully', 201))
+    .catch((next));
 };
 
 // Controller to login user
