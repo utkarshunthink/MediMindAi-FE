@@ -1,5 +1,6 @@
 export const BUTTONS = {
     getStarted: 'GET STARTED',
     signin: 'SIGN IN',
-    register: 'REGISTER'
+    register: 'REGISTER',
+    add: 'ADD'
 }

@@ -19,6 +19,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'chat',
+        loadComponent: () =>
+          import('./pages/chat/chat.page').then(
+            (p) => p.ChatPage
+          ),
+      },
+      {
         path: '**',
         loadComponent: () =>
           import('./pages/coming-soon/coming-soon.page').then(

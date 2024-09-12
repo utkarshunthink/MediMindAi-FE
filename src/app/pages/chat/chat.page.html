@@ -1,0 +1,77 @@
+<div class="main-content">
+  <div class="chat">
+    <div class="header">
+      <div class="title">AI Prescription Assistant</div>
+      <div class="description">
+        Add as many symptoms as you can for the most accurate results.
+      </div>
+    </div>
+    <div class="symptom-input">
+      <input
+        type="text"
+        placeholder="Enter your symptoms"
+        [(ngModel)]="symptom"
+        (keydown.enter)="addSymptom()"
+      />
+      <div
+        class="add-btn"
+        [ngClass]="{'disable-btn': !symptom, 'enable-btn': symptom}"
+        (click)="addSymptom()"
+      >
+        {{buttons.add}}
+      </div>
+    </div>
+
+    <div class="symptoms-collection">
+      <div class="symptom" *ngFor="let symptom of symptoms; let i =index;">
+        {{symptom | titlecase}}
+        <img
+          src="assets/images/icons/cross.svg"
+          alt="cross"
+          (click)="removeSymptom(i)"
+        />
+      </div>
+    </div>
+    <div class="show-prescription">
+      <button
+        class="primary-btn"
+        [ngClass]="{'disable-btn': !symptoms.length, 'enable-btn': symptoms.length}"
+        (click)="fetchApi()"
+      >
+        Show Prescription
+      </button>
+    </div>
+
+    <div class="prescription" *ngIf="prescription">
+      <div>
+        <div class="title">
+          Medicine based on {{prescription.result.symptoms}}
+        </div>
+        <div *ngFor="let medicine of prescription.result.medicines">
+          {{medicine.medicineName}} ({{medicine.saltName}})
+        </div>
+      </div>
+
+      <div>
+        <div class="title">Precautions</div>
+        <div
+          *ngFor="let precaution of prescription.result.precautions; let i =index"
+        >
+          {{i}}. {{precaution}}
+        </div>
+      </div>
+
+      <div>
+        <div class="title">Number of Days</div>
+        <div>{{prescription.result.numberOfDays}}</div>
+      </div>
+
+      <div>
+        <div class="title">Diet Plan</div>
+        <div *ngFor="let diet of prescription.result.dietPlan; let i =index">
+          {{i}}. {{diet}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
