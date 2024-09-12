@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { LoaderService, LocalStorageService, ToastService } from '.';
+import { LoaderService, LocalStorageService } from '.';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ import { LoaderService, LocalStorageService, ToastService } from '.';
 export class HttpService {
   constructor(
     private http: HttpClient,
-    private toastService: ToastService,
+    // private toastService: ToastService,
     private loaderService: LoaderService,
     private localStorage: LocalStorageService
   ) {}
@@ -116,14 +116,14 @@ export class HttpService {
     if (error instanceof HttpErrorResponse && error.status === 401) {
       this.handle401Error();
     } else {
-      this.toastService.displayErrorToast(
-        (error as HttpErrorResponse)?.error?.message
-      );
+      // this.toastService.displayErrorToast(
+      //   (error as HttpErrorResponse)?.error?.message
+      // );
     }
     return null;
   }
 
   private handle401Error() {
-    this.toastService.displayErrorToast('ERROR.SESSION_EXPIRED');
+    // this.toastService.displayErrorToast('ERROR.SESSION_EXPIRED');
   }
 }

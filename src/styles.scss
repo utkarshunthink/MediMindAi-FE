@@ -52,3 +52,13 @@ input{
   margin: 45px 0px;
   height: 1px;
 }
+
+.disable-btn{
+  background: var(--gray-color);
+  cursor: not-allowed;
+}
+
+.enable-btn{
+  background: var(--primary-color);
+  cursor: pointer;
+}

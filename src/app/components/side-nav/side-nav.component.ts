@@ -46,7 +46,6 @@ export class SideNavComponent implements OnInit {
 
   isRouteSelected(menuItem: SideNavMenuItem) {
     if (menuItem.route === null) return false;
-    console.log(this.router.url);
     return this.router.url.includes(menuItem.route);
   }
 }
