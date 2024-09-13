@@ -1,12 +1,27 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const session = require('express-session');
 
 const startupRoutes = require('./startup/routes/startupRoutes')
 const errorHandler = require('./middlewares/errorHandler');
 const authenticate = require('./middlewares/authMiddleware');
+const config = require('./config/config');
+const passport = require('./utils/passportConfig'); 
+const { getAuthUrl, getToken, fetchGoogleFitData } = require('./utils/googleFit');
 
 const app = express();
+
+// Session middleware
+app.use(session({
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: true
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 const corsOptions = {
     origin: '*', //configurations.pg_mt.allowedOrigins
@@ -17,14 +32,20 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+app.use(bodyParser.json());
 app.use(express.json({ limit: '10mb' })); // maximum payload size set to 10MB for JSON
 // app.use(bodyParser.json());
+
 
 // Routes
 app.use('/', startupRoutes);
 
 // Global error handler
 app.use(errorHandler);
+
+process.on('unhandledRejection', (error) => {
+    console.error('Unhandled Rejection:', error);
+    // Consider shutting down the server or logging the error here
+});
 
 module.exports = app;

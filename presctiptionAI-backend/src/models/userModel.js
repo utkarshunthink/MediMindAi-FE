@@ -39,10 +39,23 @@ const updateUserPassword = async (userId, hashedPassword) => {
     await pool.query(query, [hashedPassword, userId]);
 };
 
+const findOrCreateUser = async (profile) => {
+    console.log("🚀 ~ findOrCreateUser ~ profile:", profile);
+    const { email, name, id } = profile;
+    const result = await pool.query('SELECT * FROM users WHERE google_id = $1 OR email = $2', [id, email]);
+    if (result.rows.length === 0) {
+        const query = `INSERT INTO users (name, email, google_id, password) VALUES ($1, $2, $3, '1234@4321') RETURNING *`
+        const newUser = await pool.query(query, [name, email, id]);
+        return newUser.rows[0];
+    }
+    return result.rows[0];
+};
+
 module.exports = {
     createUser,
     findUserByEmail,
     savePasswordResetToken,
     findUserByResetToken,
-    updateUserPassword
+    updateUserPassword,
+    findOrCreateUser
 };

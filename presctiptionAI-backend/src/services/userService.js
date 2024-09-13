@@ -29,7 +29,7 @@ const register = async (userData) => {
 const login = async (email, password) => {
     try {
         const user = await userModel.findUserByEmail(email);
-        if (!user) throw new ApiError('Invalid credentials', 401);
+        if (!user) throw new ApiError('User not found', 404);
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) throw new ApiError('Invalid credentials', 401);

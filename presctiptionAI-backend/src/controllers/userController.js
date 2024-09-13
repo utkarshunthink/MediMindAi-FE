@@ -12,23 +12,42 @@ const register = async (req, res, next) => {
 // Controller to login user
 const login = async (req, res, next) => {
     const { email, password } = req.body;
-    const result = await userService.login(email, password);
-    return successResponse(res, result, 'User logged in successfully');
+    return userService.login(email, password)
+    .then((result) => successResponse(res, result, 'User logged in successfully'))
+    .catch((next));
 };
 
 // Forgot password
 const forgotPassword = async (req, res, next) => {
     const { email } = req.body;
-    const result = await userService.generatePasswordResetToken(email);
-    return successResponse(res, result, 'Password reset token sent');
+    return userService.generatePasswordResetToken(email)
+    .then((result) => successResponse(res, result, 'Password reset token sent'))
+    .catch((next));
 };
 
 // Reset password
 const resetPassword = async (req, res, next) => {
     const { resetToken, newPassword } = req.body;
-    const result = await userService.resetPassword(resetToken, newPassword);
-    return successResponse(res, result, 'Password reset successfully');
+    return userService.resetPassword(resetToken, newPassword)
+    .then((result) => successResponse(res, result, 'Password reset successfully'))
+    .catch((next));
 };
+
+exports.loginSuccess = (req, res) => {
+    if (req.user) {
+        res.status(200).json({
+            success: true,
+            message: "User authenticated",
+            user: req.user
+        });
+    } else {
+        res.status(403).json({
+            success: false,
+            message: "No user logged in"
+        });
+    }
+};
+
 
 module.exports = {
     register,
