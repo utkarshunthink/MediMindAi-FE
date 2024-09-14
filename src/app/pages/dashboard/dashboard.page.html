@@ -1,5 +1,48 @@
 <div class="dashboard">
-  <section class="left"></section>
+  <section class="left">
+    <div class="container">
+        <div class="title">
+            {{titles.healthOverview}}
+        </div>
+        <div class="health-overview">
+            <div *ngFor="let metric of healthMetrics" class="card">
+                <div class="card-body">
+                    <div class="grid-container">
+                        <div class="icon-container" [ngStyle]="{'background-color': metric.bgColor}">
+                            <img [src]="metric.icon" alt="{{ metric.title }} icon" class="icon" />
+                        </div>
+                        <div class="text-container">
+                            <h5 class="card-title">{{ metric.title }}</h5>
+                        </div>
+                    </div>
+
+                    <div class="metric-info">
+                        <span class="font-family metric-value">{{ metric.value }}</span>
+                        <span class="font-family metric-unit">{{ metric.unit }}</span>
+                    </div>
+
+                    <span class="badge" [ngStyle]="{'background-color': metric.bgColor}">{{ metric.status }}</span>
+                    <mat-progress-bar     [style.--mdc-linear-progress-active-indicator-color]="metric.bgColor"
+                       mode="determinate" [value]="clamp(metric.progress, metric.minValue, metric.maxValue)"></mat-progress-bar>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-growth">
+            <app-activity-growth-chart></app-activity-growth-chart>
+        </div>
+
+        <div class="previous-prescription">
+            <div class="previous-prescription-title">{{titles.previousPrescription}}</div>
+            <div class="previous-prescription-info">
+                <div class="previous-prescription-info-label">August 14, 2021</div>
+                <div class="previous-prescription-info-value resolved">Cough, Fever and Bodyac...</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
   <section class="right">
     <div class="header">
       <span>{{titles.bmi}}</span>
@@ -28,10 +71,7 @@
           <span class="bmi-status">{{titles.youAreHealthy}}</span>
         </div>
         <div class="bmi-progress">
-          <mat-progress-bar
-            mode="determinate"
-            [value]="getBmiProgressBarValue()"
-          ></mat-progress-bar>
+          <mat-progress-bar mode="determinate" [value]="getBmiProgressBarValue()"></mat-progress-bar>
         </div>
       </div>
     </div>
@@ -57,7 +97,7 @@
           </span>
         </div>
       </div>
-      <img [src]="images.humanBody" alt="" />
+      <img class="human-img" [src]="images.humanBody" alt="" />
     </div>
   </section>
 </div>

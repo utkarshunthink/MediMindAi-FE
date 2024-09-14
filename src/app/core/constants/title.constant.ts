@@ -25,6 +25,9 @@ export const TITLES = {
   gender: 'Gender',
   dob: 'Date of Birth',
   allergies: 'Allergies',
-      medicineType: ["allopathy", "homeopathy", "ayurvedic"],
-    aiPrescriptionAssistant: 'AI Prescription Assistant'
+  medicineType: ["allopathy", "homeopathy", "ayurvedic"],
+  aiPrescriptionAssistant: 'AI Prescription Assistant',
+  healthOverview:'Health Overview',
+  activityGrowth: 'Activity Growth',
+  previousPrescription:'Previous Prescription',
 };

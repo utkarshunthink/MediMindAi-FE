@@ -7,8 +7,10 @@ export const IMAGES = {
         'assets/images/landing-page/cardiology.svg',
         'assets/images/landing-page/orthopedic.svg',
         'assets/images/landing-page/dentist.svg',
-        'assets/images/landing-page/allergy.svg',
-    ],
+        'assets/images/landing-page/allergy.svg'    ],
     scale: 'assets/images/scale.svg',
-    humanBody: 'assets/images/human-body.svg'
+    humanBody: 'assets/images/human-body.svg',
+    heart: 'assets/images/icons/heart.svg',
+    bloodPressure: 'assets/images/icons/blood-pressure.svg',
+    sugar: 'assets/images/icons/sugar.svg'
 }
