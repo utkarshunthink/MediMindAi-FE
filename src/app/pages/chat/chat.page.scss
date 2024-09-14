@@ -46,6 +46,38 @@
             }
         }
 
+        .allergies{
+            margin-top: 10px;
+        }
+
+        .medicine-type{
+            width: 100%;
+            margin-top: 10px;
+            position: relative;
+            select{
+                width: 100%;
+                border-radius: 12px;
+                padding-left: 30px;
+                outline: none;
+                border: 1px solid var(--white-shade);
+                height: 70px;
+            }
+        }
+
+        .custom-select {
+            width: 100%;
+            padding: 8px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background: url('../../../assets/images/icons/down-arrow.svg') no-repeat right 16px center;
+            background-color: var(--white-color);
+            background-size: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            padding-right: 30px;
+        }
+
         .show-prescription{
             // margin: 0px 300px;
         }
@@ -68,18 +100,6 @@
                 img{
                     cursor: pointer;
                 }
-            }
-        }
-
-        .prescription{
-            margin: 40px 0px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            .title{
-                font-size: 16px;
-                font-weight: 700;
-
             }
         }
     }
