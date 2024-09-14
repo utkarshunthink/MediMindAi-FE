@@ -1,7 +1,7 @@
 <div class="prescription" *ngIf="prescription">
-  <div class="profile-profile">
-    <div>
-      <img src="../../../assets/images/landing-page/dentist.svg" />
+  <div class="patient-profile">
+    <div class="patient-img">
+      <img src="../../../assets/images/icons/patient-profile.svg" />
     </div>
     <div class="patient-info">
       <h3>Abhinav Singh</h3>
@@ -9,9 +9,26 @@
       <h5>80 KG</h5>
     </div>
   </div>
-  <div class="prescription-info">
-    <div class="description"></div>
+  <div class="prescription-info" *ngIf="prescription">
+    <div class="description">
+      <div class="title">Description</div>
+      <div class="label">{{ prescription.description }}</div>
+    </div>
   </div>
+
+  <app-data-management
+    [databaseList]="prescription.medicines"
+    [removeKeys]="[]"
+    [actionKeys]="[]"
+    [orderKeys]="[]"
+    [dateKeys]="[]"
+    [renameHeaderKeys]="[]"
+    [title]="'Prescription'"
+    actionButtonType=""
+  >
+  </app-data-management>
+
+  <div></div>
   <!-- <div>
     <div class="title">Description</div>
     <div>{{ prescription.description }}</div>

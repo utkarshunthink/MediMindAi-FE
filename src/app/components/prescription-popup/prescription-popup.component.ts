@@ -5,11 +5,12 @@ import { BUTTONS } from "src/app/core/constants/buttons.constant";
 import { PARAGRAPHS } from "src/app/core/constants/paragraphs.constant";
 import { TITLES } from "src/app/core/constants/title.constant";
 import { Prescription } from "src/app/core/dtos/prescription.dto";
+import { DataManagementComponent } from "../data-management/data-management.component";
 
 @Component({
     selector: 'app-prescription-popup',
     standalone: true,
-    imports: [ CommonModule ],
+    imports: [ CommonModule, DataManagementComponent ],
     templateUrl: './prescription-popup.component.html',
     styleUrls: ['./prescription-popup.component.scss'],
 })

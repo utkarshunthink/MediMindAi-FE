@@ -2,7 +2,6 @@ export interface Prescription{
     medicines: Medicine[];
     symptoms: string;
     precautions: string[];
-    numberOfDays: string;
     dietPlan: string[];
     homeRemedies: string[];
     description: string;
@@ -14,6 +13,8 @@ export interface Medicine{
     medicineName: string;
     saltName: string;
     dosage: string;
+    description: string;
+    numberOfDays: string;
 }
 
 export interface Doctors{

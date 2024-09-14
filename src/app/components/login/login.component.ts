@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { BUTTONS } from "src/app/core/constants/buttons.constant";
 import { PARAGRAPHS } from "src/app/core/constants/paragraphs.constant";
 import { TITLES } from "src/app/core/constants/title.constant";
+import { ApiService } from "src/app/core/services";
 
 @Component({
     selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
     public titles = TITLES;
     public paragraphs = PARAGRAPHS;
 
-    constructor(private router: Router){}
+    constructor(private router: Router, private apiService: ApiService){}
 
     ngOnInit(): void {
         
@@ -31,5 +32,9 @@ export class LoginComponent implements OnInit {
 
     login(): void{
         this.router.navigate(['home/dashboard']);
+    }
+
+    signInWithGoogle() {
+        this.apiService.signInWithGoogle();
     }
 }
