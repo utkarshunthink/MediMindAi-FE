@@ -5,6 +5,7 @@ import { BUTTONS } from "src/app/core/constants/buttons.constant";
 import { PARAGRAPHS } from "src/app/core/constants/paragraphs.constant";
 import { TITLES } from "src/app/core/constants/title.constant";
 import { ApiService } from "src/app/core/services";
+import { environment } from "src/environments/environment";
 
 @Component({
     selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
     public buttons = BUTTONS;
     public titles = TITLES;
     public paragraphs = PARAGRAPHS;
+    baseUrl = environment.apiBaseUrl;
 
     constructor(private router: Router, private apiService: ApiService){}
 
@@ -35,6 +37,7 @@ export class LoginComponent implements OnInit {
     }
 
     signInWithGoogle() {
-        this.apiService.signInWithGoogle();
+        // this.apiService.signInWithGoogle();
+        window.open(`${this.baseUrl}users/auth/google`, '_self');
     }
 }
