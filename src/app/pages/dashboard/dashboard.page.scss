@@ -6,11 +6,12 @@
 .right {
   background-color: #303030;
   padding: 30px;
+  border-radius: 24px 0px 0px 24px;
   .header {
     width: 100%;
     span {
       font-size: 22px;
-      color: #ffffff;
+      color: var(--white-color);
     }
   }
 }
@@ -44,7 +45,7 @@
       align-items: center;
       justify-content: space-between;
       span {
-        right: 75px;
+        right: 40px;
         position: absolute;
       }
     }
@@ -61,7 +62,7 @@
   gap: 15px;
   padding: 15px;
   display: grid;
-  color: #ffffff;
+  color: var(--white-color);
   border-radius: 12px;
   background-color: #4a4949;
   grid-template-columns: auto;
@@ -104,7 +105,7 @@
   justify-content: space-between;
   .measurements-header {
     display: flex;
-    color: #ffffff;
+    color: var(--white-color);
     align-items: flex-start;
     flex-direction: column;
     gap: 20px;
@@ -125,9 +126,9 @@
     width: 100%;
     gap: 20px;
     .measurements-detail {
-      padding: 30px;
+      padding: 20px;
       border-radius: 12px;
-      background-color: #ffffff;
+      background-color: var(--white-color);
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -143,4 +144,146 @@
       }
     }
   }
+}
+
+.human-img {
+  height: 26.5em;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.health-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #444;
+}
+
+.metric-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: 500;
+  color: #4CAF50;
+}
+
+.metric-unit {
+  font-size: 16px;
+  font-weight: 600;
+  color: #818181;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.activity-growth {
+  overflow: hidden;
+  background-color: #fff;
+  height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.previous-prescription {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+}
+
+.previous-prescription-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.previous-prescription-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.previous-prescription-info-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.previous-prescription-info-value {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--primary-color);
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--primary-color);
+}
+
+mat-progress-bar {
+  height: 20px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.icon-container {
+  margin-right: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+}
+
+.grid-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: green;
 }
