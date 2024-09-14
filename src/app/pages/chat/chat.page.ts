@@ -53,34 +53,37 @@ export class ChatPage {
         const res = {
             "medicines": [
                 {
-                    "medicineName": "Robitussin",
-                    "saltName": "Dextromethorphan",
-                    "dosage": "10-20 mg every 4 hours"
+                    "medicineName": "Paracetamol",
+                    "saltName": "Acetaminophen",
+                    "dosage": "500mg",
+                    "description": "For fever and body ache",
+                    "numberOfDays": "5"
                 },
                 {
-                    "medicineName": "Mucinex",
-                    "saltName": "Guaifenesin",
-                    "dosage": "600 mg every 12 hours"
+                    "medicineName": "Dextromethorphan",
+                    "saltName": "Dextromethorphan Hydrobromide",
+                    "dosage": "15mg",
+                    "description": "For cough suppression",
+                    "numberOfDays": "7"
                 }
             ],
-            "symptoms": "cough",
+            "symptoms": "cough & fever & bodyache",
             "precautions": [
-                "Stay hydrated",
-                "Rest adequately",
-                "Avoid irritants like smoke"
+                "Rest and stay hydrated",
+                "Cover mouth when coughing",
+                "Avoid close contact with others"
             ],
-            "numberOfDays": "7-10 days",
             "dietPlan": [
-                "Consume warm soups",
-                "Drink herbal teas",
-                "Eat fruits rich in vitamin C"
+                "Drink warm soups and broths",
+                "Eat fruits rich in Vitamin C",
+                "Consume warm herbal teas"
             ],
             "homeRemedies": [
-                "Honey and lemon tea",
-                "Steam inhalation",
-                "Saltwater gargle"
+                "Gargle with warm salt water",
+                "Use a humidifier",
+                "Drink honey and lemon tea"
             ],
-            "description": "A persistent cough that may be dry or productive, lasting for 7-10 days.",
+            "description": "Common cold with fever and body ache",
             "currentLatLng": "28.4231603,76.8249371",
             "nearby5DoctorAccordingToMySymptom": [
                 {
@@ -94,12 +97,12 @@ export class ChatPage {
                     "timings": "10:00 AM - 6:00 PM"
                 },
                 {
-                    "doctorname": "Dr. Gupta",
+                    "doctorname": "Dr. Singh",
                     "rating": "4.7",
                     "timings": "8:00 AM - 4:00 PM"
                 },
                 {
-                    "doctorname": "Dr. Singh",
+                    "doctorname": "Dr. Gupta",
                     "rating": "4.3",
                     "timings": "11:00 AM - 7:00 PM"
                 },
