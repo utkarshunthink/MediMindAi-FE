@@ -1,0 +1,12 @@
+.prescription{
+    margin: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .title{
+        color: var(--light-gray);
+        font-size: 16px;
+        font-weight: 700;
+
+    }
+}
