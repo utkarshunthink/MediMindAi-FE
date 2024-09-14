@@ -30,4 +30,6 @@ export const TITLES = {
   healthOverview:'Health Overview',
   activityGrowth: 'Activity Growth',
   previousPrescription:'Previous Prescription',
+  heightProfile: 'Height (in cm)',
+  weightProfile: 'Weight (in Kgs)',
 };

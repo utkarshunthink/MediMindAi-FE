@@ -1,6 +1,6 @@
 <div class="profile">
   <div class="image">
-    <img [src]="images.loginPrescription" />
+    <img [src]="images.loginPrescription" alt="" />
   </div>
   <div class="profile-form">
     <h3 class="title">{{ titles.profile }}</h3>
@@ -12,13 +12,13 @@
       </select>
     </div>
     <div class="input-field dob">
-      <input type="date" />
+      <input type="date" class="date-control" >
     </div>
     <div class="input-field height">
-      <input type="number" [placeholder]="titles.height" />
+      <input type="number" [placeholder]="titles.heightProfile" />
     </div>
     <div class="input-field weight">
-      <input type="number" [placeholder]="titles.weight" />
+      <input type="number" [placeholder]="titles.weightProfile" />
     </div>
     <div class="input-field waist">
       <input type="number" [placeholder]="titles.waist" />
