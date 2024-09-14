@@ -1,0 +1,38 @@
+<div class="profile">
+  <div class="image">
+    <img [src]="images.loginPrescription" />
+  </div>
+  <div class="profile-form">
+    <h3 class="title">{{ titles.profile }}</h3>
+    <div class="input-field gender">
+      <select name="gender">
+        <option value="" selected disabled>{{ titles.gender }}</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+    <div class="input-field dob">
+      <input type="date" />
+    </div>
+    <div class="input-field height">
+      <input type="number" [placeholder]="titles.height" />
+    </div>
+    <div class="input-field weight">
+      <input type="number" [placeholder]="titles.weight" />
+    </div>
+    <div class="input-field waist">
+      <input type="number" [placeholder]="titles.waist" />
+    </div>
+    <div class="input-field chest">
+      <input type="number" [placeholder]="titles.chest" />
+    </div>
+    <div class="input-field hip">
+      <input type="number" [placeholder]="titles.hip" />
+    </div>
+    <div class="btn-wrapper">
+      <button class="primary-btn" (click)="updateProfile()">
+        {{ buttons.save }}
+      </button>
+    </div>
+  </div>
+</div>
