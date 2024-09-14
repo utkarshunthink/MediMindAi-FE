@@ -55,7 +55,6 @@ router.get('/auth/google/callback',
 );
 
 router.get("/failed", (req, res) => {
-    console.log('faifaiafa')
     res.send("Failed")
 });
 
@@ -65,7 +64,6 @@ router.get("/success",
 );
 
 router.get("/dashboard", (req, res) => {
-    console.log('faifaiafa', req.user)
     res.send(req.user)
 });
 

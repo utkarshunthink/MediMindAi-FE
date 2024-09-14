@@ -9,6 +9,7 @@
         "test": "jest test"
     },
     "dependencies": {
+        "@anthropic-ai/sdk": "^0.27.3",
         "axios": "^1.7.7",
         "bcryptjs": "2.4.3",
         "cors": "2.8.5",
