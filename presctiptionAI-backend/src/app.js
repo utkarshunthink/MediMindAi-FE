@@ -34,8 +34,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(express.json({ limit: '10mb' })); // maximum payload size set to 10MB for JSON
-// app.use(bodyParser.json());
-
 
 // Routes
 app.use('/', startupRoutes);

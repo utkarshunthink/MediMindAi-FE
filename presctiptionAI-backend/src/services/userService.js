@@ -16,6 +16,7 @@ const register = async (userData) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await userModel.createUser({ name, email, password: hashedPassword });
+        console.log("🚀 ~ register ~ newUser:", newUser);
 
         const token = jwtHelper.generateToken({ id: newUser.id, email: newUser.email });
 

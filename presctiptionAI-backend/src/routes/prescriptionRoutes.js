@@ -1,15 +1,18 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const { google } = require('googleapis');
 
-// const prescriptionController = require('../controllers/prescriptionController');
+const prescriptionController = require('../controllers/prescriptionController')
+
+const authMiddleware = require('../middlewares/authMiddleware');
 
 
 router.get(
-    '/',
-    //authenticate middleware
-    (req, res) => {
-        res.json({message: "You are logged in"})
-    }
+    '/get-prescriptions', 
+    // authMiddleware.isAuthenticated,
+    prescriptionController.getPrescriptions
 );
+
 
 module.exports = router;
