@@ -1,0 +1,39 @@
+<div class="main-container">
+  <!-- TABLE -->
+  <div class="table-content">
+    <div class="table-wrapper" *ngIf="databaseList && databaseList.length">
+      <table class="table-grid">
+        <div style="height: 67px"></div>
+        <div class="total-count">
+          {{ title }}
+        </div>
+        <tr class="table-row table-head">
+          <th class="table-header" *ngFor="let key of tableHeadingKeys">
+            {{ key }}
+          </th>
+        </tr>
+        <tr *ngFor="let item of databaseList; let i = index">
+          <td *ngFor="let key of tableKeys" class="table-body-data">
+            <ng-container [ngSwitch]="true">
+              <ng-container *ngSwitchCase="dateKeys.includes(key)">{{
+                item[key] ? (item[key] | date : "MMM d y, hh:mm a") : "-"
+              }}</ng-container>
+              <ng-container *ngSwitchDefault
+                ><div [title]="item[key]">
+                  {{ item[key] | titlecase }}
+                </div></ng-container
+              >
+            </ng-container>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div
+      class="no-data"
+      *ngIf="!databaseList || (databaseList && !databaseList.length)"
+    >
+      No Data Available
+    </div>
+  </div>
+</div>
