@@ -1,10 +1,8 @@
 <div class="main-content">
   <div class="chat">
     <div class="header">
-      <div class="title">AI Prescription Assistant</div>
-      <div class="description">
-        Add as many symptoms as you can for the most accurate results.
-      </div>
+      <div class="title">{{titles.aiPrescriptionAssistant}}</div>
+      <div class="description">{{paragraphs.addManySymptoms}}</div>
     </div>
     <div class="symptom-input">
       <input
@@ -20,6 +18,24 @@
       >
         {{buttons.add}}
       </div>
+    </div>
+    <div class="allergies symptom-input">
+      <input
+        type="text"
+        [(ngModel)]="allergies"
+        [placeholder]="paragraphs.doYouHaveAllergies"
+      />
+    </div>
+
+    <div class="medicine-type">
+      <select [(ngModel)]="medicineType" class="custom-select">
+        <option
+          *ngFor="let medicineTypeName of titles.medicineType"
+          [value]="medicineTypeName"
+        >
+          {{medicineTypeName | titlecase}}
+        </option>
+      </select>
     </div>
 
     <div class="symptoms-collection">
@@ -38,40 +54,8 @@
         [ngClass]="{'disable-btn': !symptoms.length, 'enable-btn': symptoms.length}"
         (click)="fetchApi()"
       >
-        Show Prescription
+        {{buttons.showPrescription}}
       </button>
-    </div>
-
-    <div class="prescription" *ngIf="prescription">
-      <div>
-        <div class="title">
-          Medicine based on {{prescription.result.symptoms}}
-        </div>
-        <div *ngFor="let medicine of prescription.result.medicines">
-          {{medicine.medicineName}} ({{medicine.saltName}})
-        </div>
-      </div>
-
-      <div>
-        <div class="title">Precautions</div>
-        <div
-          *ngFor="let precaution of prescription.result.precautions; let i =index"
-        >
-          {{i}}. {{precaution}}
-        </div>
-      </div>
-
-      <div>
-        <div class="title">Number of Days</div>
-        <div>{{prescription.result.numberOfDays}}</div>
-      </div>
-
-      <div>
-        <div class="title">Diet Plan</div>
-        <div *ngFor="let diet of prescription.result.dietPlan; let i =index">
-          {{i}}. {{diet}}
-        </div>
-      </div>
     </div>
   </div>
 </div>

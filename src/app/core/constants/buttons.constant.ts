@@ -4,4 +4,5 @@ export const BUTTONS = {
   register: 'REGISTER',
   add: 'ADD',
   save: 'SAVE',
+  showPrescription: 'Show Prescription'
 };

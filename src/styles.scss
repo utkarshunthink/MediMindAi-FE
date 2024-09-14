@@ -62,3 +62,7 @@ input{
   background: var(--primary-color);
   cursor: pointer;
 }
+
+.prescription-fiter-dialog .mat-mdc-dialog-container .mdc-dialog__surface{
+  border-radius: 24px!important;
+}
