@@ -1,134 +1,73 @@
-// const passport = require('passport');
-// const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const config = require('../config/config');
-// const { findOrCreateUser } = require('../models/userModel');
-// const pool = require('../startup/db/pool');
-// const jwtHelper = require('../utils/jwtHelper');
-// const { google } = require('googleapis');
-
-// // Add scopes for Google Fit API
-// const googleFitScopes = [
-//     'https://www.googleapis.com/auth/fitness.activity.read',
-//     'https://www.googleapis.com/auth/fitness.heart_rate.read',
-//     'https://www.googleapis.com/auth/fitness.location.read',
-//     'https://www.googleapis.com/auth/fitness.blood_glucose.read',
-//     'https://www.googleapis.com/auth/fitness.blood_pressure.read',
-//     'https://www.googleapis.com/auth/fitness.body.read',
-//     'https://www.googleapis.com/auth/fitness.body_temperature.read',
-//     'https://www.googleapis.com/auth/fitness.nutrition.read',
-//     'https://www.googleapis.com/auth/fitness.oxygen_saturation.read',
-//     'https://www.googleapis.com/auth/fitness.sleep.read'
-// ];
-
-// passport.use(new GoogleStrategy({
-//     clientID: config.googleConfig.googleClientID,
-//     clientSecret: config.googleConfig.googleClientSecret,
-//     callbackURL: config.callbackURL,
-//     scope: ['profile', 'email', ...googleFitScopes], // Including both Google Fit and profile scopes
-//     passReqToCallback: true // Allows passing req to the callback
-// }, async (accessToken, refreshToken, profile, done) => {
-//     console.log("🚀 ~ accessToken, refreshToken:", accessToken, refreshToken);
-//     try {
-//         const user = await findOrCreateUser({
-//             email: profile.emails[0].value,
-//             name: profile.displayName,
-//             id: profile.id,
-//         });
-        
-//         user.accessToken = accessToken,
-//         user.refreshToken = refreshToken
-//         // Create a JWT token
-//         // const token = jwtHelper.generateToken({ id: user.id, email: user.email });
-//         // console.log("🚀 ~ token:", token);
-//         done(null, user);
-//     } catch (error) {
-//         done(error, false);
-//     }
-// }));
-
-// passport.serializeUser((user, done) => {
-//     console.log("🚀 ~ passport.serializeUser ~ user:", user);
-//     done(null, user);
-// });
-
-// passport.deserializeUser((user, done) => {
-//     console.log("🚀 ~ passport.deserializeUser ~ id:", user);
-//     // Use the user ID to fetch user details
-//     return pool.query('SELECT * FROM users WHERE id = $1', [user.id], (err, result) => {
-//         if (err) {
-//             return done(err, false);
-//         }
-//         done(null, user);
-//     });
-// });
-
-// module.exports = passport;
-
-
-
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const config = require('../config/config');
 const { findOrCreateUser } = require('../models/userModel');
 const pool = require('../startup/db/pool');
-
-// Add scopes for Google Fit API
-const googleFitScopes = [
-    'https://www.googleapis.com/auth/fitness.activity.read',
-    'https://www.googleapis.com/auth/fitness.heart_rate.read',
-    'https://www.googleapis.com/auth/fitness.location.read',
-    'https://www.googleapis.com/auth/fitness.blood_glucose.read',
-    'https://www.googleapis.com/auth/fitness.blood_pressure.read',
-    'https://www.googleapis.com/auth/fitness.body.read',
-    'https://www.googleapis.com/auth/fitness.body_temperature.read',
-    'https://www.googleapis.com/auth/fitness.nutrition.read',
-    'https://www.googleapis.com/auth/fitness.oxygen_saturation.read',
-    'https://www.googleapis.com/auth/fitness.sleep.read'
-];
+const jwtHelper =require('../utils/jwtHelper')
+const userService = require('../services/userService')
 
 // Configure Google Strategy
 passport.use(new GoogleStrategy({
     clientID: config.googleConfig.googleClientID,
     clientSecret: config.googleConfig.googleClientSecret,
-    callbackURL: config.callbackURL,
-    scope: ['profile', 'email', ...googleFitScopes],
-    passReqToCallback: true
-}, async (req, accessToken, refreshToken, profile, done) => {
-    console.log("🚀 ~ accessToken, refreshToken:", accessToken, refreshToken);
+    callbackURL: config.googleConfig.callbackURL,
+    scope: [
+        ...config.googleFitScopes,
+        ...config.usersScopes
+    ],
+    passReqToCallback: true,
+    accessType: 'offline',
+    prompt: 'consent',
+    approvalPrompt: 'force'
+}, async (req, accessToken, refreshToken, profile, params, done) => {
+    console.log(params, 'papapa')
+    console.log(profile, 'prprpr')
     
     try {
-        // Ensure the profile has an email and displayName
-        const email = profile.emails && profile.emails[0] ? profile.emails[0].value : null;
-        const name = profile.displayName || 'Unknown User';
-        const id = profile.id;
 
-        if (!email) {
+        // const result = await userService.googleLogin(params, profile);
+        const payload = {}
+        payload.email = params.emails[0].value
+        payload.name = params.displayName;
+        payload.userId = params.id;
+        payload.googleLogin = true;
+        payload.expireIn = profile.expires_in
+        payload.accessToken = profile.access_token;
+        payload.refreshToken = profile.refresh_token
+
+        if (!payload.email) {
             return done(new Error('No email found for the user.'), null);
         }
 
-        const user = await findOrCreateUser({ email, name, id });
-        user.accessToken = accessToken;
-        user.refreshToken = refreshToken;
+        // const token = ''
+        // const user = await findOrCreateUser({ email, name, id, accessToken, refreshToken });
 
-        done(null, user);
+        const token = jwtHelper.generateToken(payload);
+        payload.token = token;
+        console.log("🚀 ~ token:", token);
+        // user.accessToken = accessToken;
+        // user.refreshToken = refreshToken;
+
+        done(null, payload);
     } catch (error) {
         console.error('Error during user find or create:', error);
         done(error, false);
     }
 }));
 
-passport.serializeUser((user, done) => {
-    console.log("🚀 ~ passport.serializeUser ~ user:", user);
-    done(null, user);
+passport.serializeUser((payload, done) => {
+    console.log("🚀 ~ passport.serializeUser ~ user:", payload);
+    done(null, payload);
 });
 
-passport.deserializeUser(async (user, done) => {
-    console.log("🚀 ~ passport.deserializeUser ~ user:", user);
+passport.deserializeUser(async (payload, done) => {
+    console.log("🚀 ~ passport.deserializeUser ~ user:", payload);
     
     try {
-        const result = await pool.query('SELECT * FROM users WHERE id = $1', [user.id]);
+        result = {rows: ['aa']}
+        // const result = await pool.query('SELECT * FROM users WHERE id = $1', [user.id]);
         if (result.rows.length > 0) {
-            done(null, user); // Return the user object
+            done(null, payload); // Return the user object
         } else {
             done(new Error('User not found'), false);
         }

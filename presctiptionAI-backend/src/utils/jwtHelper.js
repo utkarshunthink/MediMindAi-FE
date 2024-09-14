@@ -4,7 +4,8 @@ const { jwtSecret } = require('../config/config');
 
 // Generate JWT token
 const generateToken = (payload) => {
-    return jwt.sign(payload, jwtSecret, { expiresIn: '1d' });
+    console.log("🚀 ~ generateToken ~ payload:", payload);
+    return jwt.sign(payload, jwtSecret, { expiresIn: '1h' });
 };
 
 // Verify JWT token

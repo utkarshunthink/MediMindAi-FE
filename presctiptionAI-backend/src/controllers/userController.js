@@ -1,5 +1,7 @@
 const userService = require('../services/userService');
 const successResponse = require('../middlewares/responseHandler');
+const config = require('../config/config');
+
 
 // Controller to register a new user
 const register = async (req, res, next) => {
@@ -33,25 +35,40 @@ const resetPassword = async (req, res, next) => {
     .catch((next));
 };
 
-exports.loginSuccess = (req, res) => {
-    if (req.user) {
-        res.status(200).json({
-            success: true,
-            message: "User authenticated",
-            user: req.user
-        });
-    } else {
-        res.status(403).json({
-            success: false,
-            message: "No user logged in"
-        });
-    }
-};
+// exports.loginSuccess = (req, res) => {
+//     if (req.user) {
+//         res.status(200).json({
+//             success: true,
+//             message: "User authenticated",
+//             user: req.user
+//         });
+//     } else {
+//         res.status(403).json({
+//             success: false,
+//             message: "No user logged in"
+//         });
+//     }
+// };
 
+const googleCallbackRedirect = async (req, res) => {
+    return userService.handleGoogleCallback(req, res);
+};
+    
+
+const fetchGoogleFitData = async (req, res, next) => {
+    return userService.fetchGoogleFitData(req, res, next);
+} 
+
+const sendDataTFrontend = async = (req, res, next) => {
+    return userService.sendDataTFrontend(req, res);
+}
 
 module.exports = {
     register,
     login,
     forgotPassword,
     resetPassword,
+    googleCallbackRedirect,
+    fetchGoogleFitData,
+    sendDataTFrontend
 };

@@ -25,7 +25,25 @@ function isAuthenticated(req, res, next) {
     res.redirect('/users/auth/google');  // Redirect to login if not authenticated
 }
 
+const authenticateUser = (req, res, next) => {
+    const token = req.headers.authorization; // Extract token from headers
+    console.log("🚀 ~ authenticateUser ~ token:", token, req.headers.authorization);
+    if (!token) {
+        throw new ApiError('No token provided', 401);
+    }
+
+    try {
+        const decoded = jwtHelper.verifyToken(token);
+        logger.debug("🚀 ~ authenticateUser ~ decoded:", decoded);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        throw new ApiError('Invalid token', 401);
+    }
+};
+
 module.exports = {
     authenticate,
-    isAuthenticated
+    isAuthenticated,
+    authenticateUser
 };

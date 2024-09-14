@@ -51,11 +51,17 @@ const findOrCreateUser = async (profile) => {
     return result.rows[0];
 };
 
+async function getUserTokens(userId) {
+    const result = await pool.query('SELECT accessToken, refreshToken FROM users WHERE id = $1', [userId]);
+    return result.rows[0];
+}
+
 module.exports = {
     createUser,
     findUserByEmail,
     savePasswordResetToken,
     findUserByResetToken,
     updateUserPassword,
-    findOrCreateUser
+    findOrCreateUser,
+    getUserTokens
 };
