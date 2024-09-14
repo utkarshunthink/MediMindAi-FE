@@ -7,6 +7,9 @@
     <input type="password" [placeholder]="titles.password" />
   </div>
   <button class="primary-btn" (click)="login()">{{ buttons.signin }}</button>
+  <button type="button" class="google-btn" (click)="signInWithGoogle()">
+    {{ buttons.signInWithGoogle }}
+  </button>
   <div class="switch-to-signup">
     <p>{{ paragraphs.dontHaveAcc }}</p>
     <h4 (click)="navigateTo()">{{ titles.signupFree }}</h4>

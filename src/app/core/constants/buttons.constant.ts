@@ -4,5 +4,6 @@ export const BUTTONS = {
   register: 'REGISTER',
   add: 'ADD',
   save: 'SAVE',
-  showPrescription: 'Show Prescription'
+  showPrescription: 'Show Prescription',
+  signInWithGoogle: 'Sign in with Google',
 };

@@ -9,4 +9,8 @@ export class ApiService {
   baseUrl = environment.apiBaseUrl;
 
   constructor(private httpService: HttpService) {}
+
+  signInWithGoogle() {
+    return this.httpService.get(`${this.baseUrl}users/auth/google`);
+  }
 }
