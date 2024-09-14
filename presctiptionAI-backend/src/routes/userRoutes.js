@@ -70,7 +70,7 @@ router.get("/dashboard", (req, res) => {
 });
 
 // Fetch Google Fit Data
-router.get('/fetch-fit-data',     
+router.get('/fetch-fit-data/:numberOfDaysList',     
     // authMiddleware.isAuthenticated,
     authMiddleware.authenticateUser,
     userController.fetchGoogleFitData

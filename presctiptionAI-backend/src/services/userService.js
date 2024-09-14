@@ -6,6 +6,8 @@ const crypto = require('crypto');
 const config = require('../config/config');
 const moment = require('moment');
 const passport = require('passport');
+const { google } = require('googleapis');
+
 // const passport = require('./../utils/passportConfig');
 
 const register = async (userData) => {
@@ -94,7 +96,7 @@ const handleGoogleCallback = async (req, res) => {
     try {
         // Check if the authentication is successful (you can add custom logic if needed)
         if (!req.user) {
-            throw new ApiError('Authentication failed', 401);
+            throw new ApiError('Authentication failed', 401, res);
         }
 
         // On success, log the response and redirect
@@ -144,9 +146,13 @@ const googleLogin = (params, profile) => {
 const fetchGoogleFitData = async (req, res, next) => {
     console.log("🚀 ~ fetchGoogleFitData.get ~ req:", req.user);
     if (!req.user || !req.user.accessToken) {
-        throw new ApiError('User not authenticated or missing access token', 401);
+        throw new ApiError('User not authenticated or missing access token', 401, res);
     }
     const accessT = req?.user?.accessToken || accessToken;
+    let numberOfDaysList = [1];
+    if (req?.params?.numberOfDaysList) {
+        numberOfDaysList = req?.params?.numberOfDaysList.split(',');
+    }
     console.log("🚀 ~ accessT:", accessT);
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({ access_token: accessT });
@@ -154,52 +160,64 @@ const fetchGoogleFitData = async (req, res, next) => {
     const fitness = google.fitness({ version: 'v1', auth: oauth2Client });
 
     const date = new Date();
-    const startOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0).getTime();
-    const endOfDay = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59).getTime();
 
-    const requestBody = {
-        aggregateBy: [
-            {
-                "dataSourceId":
-                  "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+    const fitDataList = [];
+
+    for (let i = 0; i < numberOfDaysList.length; i++) {
+        // const fitData = await getFitData(fitness, date, numberOfDaysList[i]);
+        // if (fitData) {
+        //     fitDataList.push(fitData);
+        // }
+        // date.setDate(date.getDate() - 1);
+
+        const requestBody = {
+            aggregateBy: [
+                { dataTypeName: 'com.google.step_count.delta' },
+                { dataTypeName: 'com.google.active_minutes' },
+                { dataTypeName: 'com.google.activity.segment' },
+                { dataTypeName: 'com.google.hydration' },
+                { dataTypeName: 'com.google.nutrition' },
+                { dataTypeName: 'com.google.blood_glucose' },
+                { dataTypeName: 'com.google.blood_pressure' },
+                { dataTypeName: 'com.google.sleep.segment' },
+                { dataTypeName: 'com.google.heart_rate.bpm' },
+                { dataTypeName: 'com.google.calories.expended' },
+                { dataSourceId: 'derived:com.google.height:com.google.android.gms:merge_height' },
+                { dataSourceId: 'derived:com.google.weight:com.google.android.gms:merge_weight' }
+            ],
+            "bucketByTime": {
+                "durationMillis": 86400000  // 1 day in milliseconds (optional, can customize)
               },
-              
-              // { dataTypeName: 'com.google.cycling.wheel_revolution.rpm' },
-            { dataTypeName: 'com.google.step_count.delta' },
-            { dataTypeName: 'com.google.active_minutes' },
-            { dataTypeName: 'com.google.activity.segment' },
-            { dataTypeName: 'com.google.hydration' },
-            { dataTypeName: 'com.google.nutrition' },
-            { dataTypeName: 'com.google.blood_glucose' },
-            { dataTypeName: 'com.google.blood_pressure' },
-            { dataTypeName: 'com.google.sleep.segment' },
-            { dataTypeName: 'com.google.heart_rate.bpm' },
-            { dataTypeName: 'com.google.calories.expended' },
-        ],
-        "bucketByTime": {
-            "durationMillis": 86400000  // 1 day in milliseconds (optional, can customize)
-          },
-        startTimeMillis: Date.now() - (7 * 24 * 60 * 60 * 1000), // 7 days ago
-        endTimeMillis: Date.now() 
-        // startTimeMillis: startOfDay,
-        // endTimeMillis: endOfDay
-    };
-
-    return await fitness.users.dataset.aggregate({
-        userId: 'me',
-        requestBody: requestBody
-    }).then(response => {
-        res.json(response.data);
-    }).catch(error => {
-        console.error('Error fetching Google Fit data:', error);
+            startTimeMillis: Date.now() - (numberOfDaysList[i] * 24 * 60 * 60 * 1000), // 7 days ago
+            endTimeMillis: Date.now() 
+            // startTimeMillis: startOfDay,
+            // endTimeMillis: endOfDay
+        };
+    
+        await fitness.users.dataset.aggregate({
+            userId: 'me',
+            requestBody: requestBody
+        }).then(response => {
+            fitDataList.push(response.data);
+        }).catch(error => {
+            console.error('Error fetching Google Fit data:', error, 'numberOfDaysList:', numberOfDaysList[i]);
+        });
+    }
+    if (!fitDataList || !fitDataList.length) {
         res.status(500).json({ error: 'Failed to fetch Google Fit data' });
-    });
+        return;
+    }
+
+    if (fitDataList) {
+        console.log(fitDataList);
+        res.json(fitDataList);
+    }
 }
 
 const sendDataTFrontend = (req, res) => {
     const userObj = req.user || null;
     const token = userObj?.token || '';
-    const frontendURL = `http://localhost:4200/home/dashboard?token=${token}}`;
+    const frontendURL = `http://localhost:4200/home/dashboard?token=${token}`;
     res.redirect(frontendURL);
 }
 

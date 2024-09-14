@@ -5,7 +5,7 @@ const ApiError = require('../utils/ApiError');
 const authenticate = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1]; // Extract token from headers
     if (!token) {
-        throw new ApiError('No token provided', 401);
+        throw new ApiError('No token provided', 401, res);
     }
 
     try {
@@ -13,7 +13,7 @@ const authenticate = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        throw new ApiError('Invalid token', 401);
+        throw new ApiError('Invalid token', 401, res);
     }
 };
 
@@ -26,19 +26,24 @@ function isAuthenticated(req, res, next) {
 }
 
 const authenticateUser = (req, res, next) => {
-    const token = req.headers.authorization; // Extract token from headers
-    console.log("🚀 ~ authenticateUser ~ token:", token, req.headers.authorization);
+    const bearerToken = req.headers.authorization; // Extract bearerToken from headers
+    console.log("🚀 ~ authenticateUser ~ bearerToken:", bearerToken, req.headers.authorization);
+    if (!bearerToken) {
+        throw new ApiError('No token provided', 401, res);
+    }
+
+    const token = bearerToken.split(' ')[1];
     if (!token) {
-        throw new ApiError('No token provided', 401);
+        throw new ApiError('No token provided', 401, res);
     }
 
     try {
         const decoded = jwtHelper.verifyToken(token);
-        logger.debug("🚀 ~ authenticateUser ~ decoded:", decoded);
+        console.log("🚀 ~ authenticateUser ~ decoded:", decoded);
         req.user = decoded;
         next();
     } catch (error) {
-        throw new ApiError('Invalid token', 401);
+        throw new ApiError('Invalid token', 401, res);
     }
 };
 
