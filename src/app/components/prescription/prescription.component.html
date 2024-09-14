@@ -1,0 +1,82 @@
+<div id="pdf-content" class="pdf-container hidden-pdf-content">
+  <header class="header">
+    <h1>
+      <img [src]="images.appLogo" alt="Company Logo" class="logo" style="vertical-align: middle;" />
+      Medimind AI Prescription
+    </h1>
+    <h3>Suggested Based on Your Responses</h3>
+    <p>{{ prescriptionData.description }}</p>
+  </header>
+
+  <section class="symptoms-section">
+    <h3>Symptoms</h3>
+    <p>{{ prescriptionData.symptoms }}</p>
+  </section>
+
+  <section class="medicines-section">
+    <h3>Medicines</h3>
+    <table class="medicine-table">
+      <thead>
+        <tr>
+          <th>Medicine Name</th>
+          <th>Salt Name</th>
+          <th>Dosage</th>
+          <th>Description</th>
+          <th>Days</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let medicine of prescriptionData.medicines">
+          <td>{{ medicine.medicineName }}</td>
+          <td>{{ medicine.saltName }}</td>
+          <td>{{ medicine.dosage }}</td>
+          <td>{{ medicine.description }}</td>
+          <td>{{ medicine.numberOfDays }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="precautions-section">
+    <h3>Precautions</h3>
+    <ul>
+      <li *ngFor="let precaution of prescriptionData.precautions">{{ precaution }}</li>
+    </ul>
+  </section>
+
+  <section class="diet-plan-section">
+    <h3>Diet Plan</h3>
+    <ul>
+      <li *ngFor="let item of prescriptionData.dietPlan">{{ item }}</li>
+    </ul>
+  </section>
+
+  <section class="home-remedies-section">
+    <h3>Home Remedies</h3>
+    <ul>
+      <li *ngFor="let remedy of prescriptionData.homeRemedies">{{ remedy }}</li>
+    </ul>
+  </section>
+
+  <section class="doctors-section">
+    <h3>Nearby Doctors</h3>
+    <table class="doctor-table">
+      <thead>
+        <tr>
+          <th>Doctor Name</th>
+          <th>Rating</th>
+          <th>Timings</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let doctor of prescriptionData.nearbyDoctors">
+          <td>{{ doctor.doctorname }}</td>
+          <td>{{ doctor.rating }}</td>
+          <td>{{ doctor.timings }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<button class="download-button" (click)="downloadPDF()">Download PDF</button>

@@ -9,6 +9,7 @@ import { TITLES } from 'src/app/core/constants/title.constant';
 import { Symptoms } from 'src/app/core/dtos/symptoms.dto';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { ChatService } from './chat.service';
+import { PrescriptionComponent } from 'src/app/components/prescription/prescription.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ import { ChatService } from './chat.service';
   templateUrl: 'chat.page.html',
   styleUrls: ['chat.page.scss'],
   standalone: true,
-  imports: [FormsModule, MatDialogModule, PrescriptionPopupComponent, NgFor, NgIf, NgClass, TitleCasePipe ],
+  imports: [FormsModule, MatDialogModule, PrescriptionPopupComponent, NgFor, NgIf, NgClass, TitleCasePipe,PrescriptionComponent ],
   providers: [ModalService]
 })
 export class ChatPage {

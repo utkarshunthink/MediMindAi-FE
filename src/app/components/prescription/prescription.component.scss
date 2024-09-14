@@ -1,0 +1,106 @@
+.pdf-container {
+  font-family: 'Arial', sans-serif;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+
+  header {
+    text-align: center;
+    margin-bottom: 30px;
+
+    .logo {
+      margin-right: 10px;
+      height: 40px;
+    }
+
+
+    h1 {
+      color: var(--primary-color);
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    h3 {
+      color: var(--text-color);
+      font-weight: 400;
+      margin: 5px 0;
+    }
+
+    p {
+      color: var(--text-color);
+      font-style: italic;
+    }
+  }
+
+  section {
+    margin-bottom: 20px;
+
+    h3 {
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--primary-color);
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+
+    th {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 12px;
+      text-align: left;
+      font-weight: bold;
+    }
+
+    td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-color);
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--secondary-color);
+    }
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+
+    li {
+      margin: 5px 0;
+      color: var(--text-color);
+    }
+  }
+}
+
+.download-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hidden-pdf-content {
+  visibility: hidden;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
