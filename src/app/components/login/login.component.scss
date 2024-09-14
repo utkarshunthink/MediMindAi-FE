@@ -1,74 +1,73 @@
-.login-card{
+.login-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  .login-title {
+    text-align: center;
+    width: 268px;
+    font-size: 22px;
+    font-weight: 600;
+  }
+  .input-field {
+    input {
+      border: 1px solid var(--white-shade);
+      color: var(--almost-black);
+      font-size: 16px;
+      padding: 14px 45px;
+      border-radius: 12px;
+      background: var(--secondary-color);
+      width: 268px;
+      outline: none;
+    }
+    position: relative;
+  }
+  .email::after {
+    content: url("../../../assets/images/icons/email.svg");
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+  }
+  .password::after {
+    content: url("../../../assets/images/icons/password.svg");
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+  }
+  // .input-field::before{
+  //     content: url('../../../assets/images/icons/danger-circle.svg');
+  //     position: absolute;
+  //     right: 15px;
+  //     top: 12px;
+  //     width: 24px;
+  //     height: 24px;
+  // }
+  .primary-btn {
+    width: 360px;
+    height: 48px;
+    font-size: 20px;
+  }
+  .switch-to-signup {
+    text-align: center;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    width: 360px;
     justify-content: center;
-    gap: 22px;
-    .login-title{
-        text-align: center;
-        width: 268px;
-        font-size: 22px;
-        font-weight: 600;
+    font-size: 16px;
+    gap: 5px;
+    p {
+      color: var(--light-gray);
+      font-weight: 300;
     }
-    .input-field{
-        input{
-            border: 1px solid var(--white-shade);
-            color: var(--almost-black);
-            font-size: 16px;
-            padding: 14px 45px;
-            border-radius: 12px;
-            background: var(--secondary-color);
-            width: 268px;
-            outline: none;
-            
-        }
-        position: relative;
+    h4 {
+      color: var(--primary-color);
+      cursor: pointer;
+      font-weight: 600;
     }
-    .email::after{
-        content: url('../../../assets/images/icons/email.svg');
-        position: absolute;
-        left: 16px;
-        top: 12px;
-        width: 24px;
-        height: 24px;
-    }
-    .password::after{
-        content: url('../../../assets/images/icons/password.svg');
-        position: absolute;
-        left: 16px;
-        top: 12px;
-        width: 24px;
-        height: 24px;
-    }
-    .input-field::before{
-        content: url('../../../assets/images/icons/danger-circle.svg');
-        position: absolute;
-        right: 15px;
-        top: 12px;
-        width: 24px;
-        height: 24px;
-    }
-    .primary-btn{
-        width: 360px;
-        height: 48px;
-        font-size: 20px;
-    }
-    .switch-to-signup{
-        text-align: center;
-        display: flex;
-        align-items: center;
-        width: 360px;
-        justify-content: center;
-        font-size: 16px;
-        gap: 5px;
-        p{
-            color: var(--light-gray);
-            font-weight: 300;
-        }
-        h4{
-            color: var(--primary-color);
-            cursor: pointer;
-            font-weight: 600;
-        }
-    }
+  }
 }

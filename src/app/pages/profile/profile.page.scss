@@ -1,0 +1,102 @@
+.profile {
+  background: var(--white-color);
+  padding: 50px;
+  display: grid;
+  margin: 80px 240px;
+  border-radius: 24px;
+  align-items: center;
+  grid-template-columns: 50% 50%;
+  box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.0392156863),
+    0px 6px 16px 4px rgba(0, 0, 0, 0.0392156863);
+}
+
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-form {
+  gap: 20px;
+  display: grid;
+  grid-template-columns: 100%;
+}
+
+.title {
+  text-align: center;
+  width: 100%;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.input-field {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  input,
+  select {
+    border: 1px solid var(--white-shade);
+    color: var(--almost-black);
+    font-size: 16px;
+    padding: 14px 45px;
+    border-radius: 12px;
+    background: var(--secondary-color);
+    width: 268px;
+    outline: none;
+  }
+  select {
+    width: 360px;
+  }
+  &::after {
+    position: absolute;
+    left: 140px;
+    top: 12px;
+    width: 24px;
+    height: 24px;
+  }
+  &.gender {
+    &::after {
+      content: url("../../../assets/images/icons/gender.svg");
+    }
+  }
+  &.dob {
+    &::after {
+      content: url("../../../assets/images/icons/calendar.svg");
+    }
+  }
+  &.height {
+    &::after {
+      content: url("../../../assets/images/icons/height.svg");
+    }
+  }
+  &.weight {
+    &::after {
+      content: url("../../../assets/images/icons/weight.svg");
+    }
+  }
+  &.waist {
+    &::after {
+      content: url("../../../assets/images/icons/waist.svg");
+    }
+  }
+  &.chest {
+    &::after {
+      content: url("../../../assets/images/icons/chest.svg");
+    }
+  }
+  &.hip {
+    &::after {
+      content: url("../../../assets/images/icons/hip.svg");
+    }
+  }
+}
+
+.btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .primary-btn {
+    width: 360px;
+  }
+}

@@ -21,9 +21,12 @@ export const routes: Routes = [
       {
         path: 'chat',
         loadComponent: () =>
-          import('./pages/chat/chat.page').then(
-            (p) => p.ChatPage
-          ),
+          import('./pages/chat/chat.page').then((p) => p.ChatPage),
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/profile.page').then((p) => p.ProfilePage),
       },
       {
         path: '**',

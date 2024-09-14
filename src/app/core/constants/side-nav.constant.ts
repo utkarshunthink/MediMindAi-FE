@@ -24,9 +24,9 @@ export const SIDE_NAV_MENU_ITEMS: SideNavMenuItem[] = [
     icon: 'analytics',
   },
   {
-    name: 'settings',
-    route: '/home/settings',
-    icon: 'settings',
+    name: 'profile',
+    route: '/home/profile',
+    icon: 'profile',
   },
   {
     name: 'logout',
