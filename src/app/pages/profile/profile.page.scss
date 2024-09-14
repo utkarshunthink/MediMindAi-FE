@@ -2,7 +2,7 @@
   background: var(--white-color);
   padding: 50px;
   display: grid;
-  margin: 80px 240px;
+  margin: 80px 30px;
   border-radius: 24px;
   align-items: center;
   grid-template-columns: 50% 50%;
@@ -18,8 +18,9 @@
 
 .profile-form {
   gap: 20px;
-  display: grid;
-  grid-template-columns: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
@@ -34,35 +35,61 @@
   position: relative;
   align-items: center;
   justify-content: center;
+  width: 360px;
+  position: relative;
   input,
   select {
     border: 1px solid var(--white-shade);
     color: var(--almost-black);
     font-size: 16px;
-    padding: 14px 45px;
+    padding: 14px 14px 14px 45px;
     border-radius: 12px;
     background: var(--secondary-color);
-    width: 268px;
+    width: 100%;
     outline: none;
   }
   select {
-    width: 360px;
+    // width: 360px;
   }
   &::after {
     position: absolute;
-    left: 140px;
-    top: 12px;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 24px;
     height: 24px;
   }
   &.gender {
+    select {
+      appearance: none;
+      background: var(--secondary-color) url('../../../assets/images/icons/down-arrow.svg');
+      background-repeat: no-repeat;
+      background-position: right 20px center;
+    }
     &::after {
       content: url("../../../assets/images/icons/gender.svg");
     }
   }
   &.dob {
-    &::after {
+    &::before {
       content: url("../../../assets/images/icons/calendar.svg");
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 10px;
+    }
+    &::after {
+      height: 90%;
+      width: 40px;
+      background: var(--secondary-color);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      content: '';
+      display: block;
+      right: 10px;
+      left: inherit;
+      pointer-events: none;
     }
   }
   &.height {
@@ -99,4 +126,38 @@
   .primary-btn {
     width: 360px;
   }
+}
+
+input[type="date"] {
+  border: 1px solid var(--light-gray);
+  color: var(--almost-black);
+  font-size: 16px;
+  padding: 12px 45px; /* Add padding to the right to make space for the icon */
+  border-radius: 12px;
+  background: var(--secondary-color);
+  width: 100%; /* Make input full width */
+  // max-width: 360px; /* Set a max width */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.date-control input {
+  border: none;
+  box-sizing: border-box;
+  outline: 0;
+  padding: .75rem;
+  position: relative;
+  width: 100%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
 }
