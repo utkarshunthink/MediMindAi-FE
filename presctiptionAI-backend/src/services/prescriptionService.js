@@ -30,7 +30,7 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
         console.log("🚀 ~ getUserPrescriptionsWithPastData ~ prescriptionWithSymptoms:", prescriptionWithSymptoms.length);
 
         if(prescriptionWithSymptoms.length > 0){
-            await emailService.sendEmail(userDetails, prescriptionWithSymptoms);
+            emailService.sendEmail(userDetails, prescriptionWithSymptoms);
             return {
                 prescriptionWithSymptoms: prescriptionWithSymptoms[0]
             };
@@ -40,7 +40,7 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
         console.log("🚀 ~ getUserPrescriptionsWithPastData ~ newPrescriptions:", newPrescriptions);
         await prescriptionModel.savePrescriptions(newPrescriptions);
         
-        await emailService.sendEmail(userDetails, newPrescriptions);
+        emailService.sendEmail(userDetails, newPrescriptions);
 
         return {
             prescriptionWithSymptoms: newPrescriptions

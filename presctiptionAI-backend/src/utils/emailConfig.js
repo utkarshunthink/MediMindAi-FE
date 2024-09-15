@@ -117,7 +117,7 @@ const setMailOption = (userDetails, prescription) => {
                           <th>Description</th>
                           <th>Days</th>
                       </tr>
-                      ${prescription[0].medicines.map(med => {
+                      ${prescription[0]?.medicines.map(med => {
                         return `
                             <td>${med.medicineName}</td>
                             <td>${med.saltName}</td>
