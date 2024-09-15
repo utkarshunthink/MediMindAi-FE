@@ -1,8 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const config = require('../config/config');
-const { findOrCreateUser } = require('../models/userModel');
-const pool = require('../startup/db/pool');
 const jwtHelper =require('../utils/jwtHelper')
 const userService = require('../services/userService')
 
@@ -19,12 +17,16 @@ passport.use(new GoogleStrategy({
     accessType: 'offline',
     prompt: 'consent',
     approvalPrompt: 'force'
-}, async (req, accessToken, refreshToken, profile, params, done) => {
+}, async (req, accessToken, refreshToken, profile, params, done) => {    
     try {
 
         const payload = await userService.googleLogin(params, profile);
-        console.log("🚀 ~ payload:", payload);
-       
+        const token = jwtHelper.generateToken(payload);
+        payload.token = token;
+        console.log("🚀 ~ token:", token);
+        // user.accessToken = accessToken;
+        // user.refreshToken = refreshToken;
+
         done(null, payload);
     } catch (error) {
         console.error('Error during user find or create:', error);

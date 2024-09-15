@@ -14,10 +14,6 @@ router.post(
     userController.register
 );
 
-router.get(
-    '/welcome-login', (req, res) => res.send('Please login')
-);
-
 router.post(
     '/login', 
     userController.login
@@ -33,12 +29,16 @@ router.post(
     userController.resetPassword
 );
 
+router.post(
+    '/reset-password', 
+    userController.resetPassword
+);
+
 // Logout route
 router.get('/logout', (req, res) => {
     // Logout and destroy session
     req.logout((err) => {
-        if (err) { return next(err); }
-        
+        if (err) { return next(err); }        
         // Destroy session if using express-session
         req.session.destroy(() => {
             // res.clearCookie('connect.sid');  // Clear the session cookie
@@ -77,17 +77,20 @@ router.get("/success",
     userController.sendDataTFrontend
 );
 
-router.get("/dashboard", (req, res) => {
-    res.send(req.user)
-});
-
 // Fetch Google Fit Data
-router.get('/fetch-fit-data/:numberOfDaysList',     
-    // authMiddleware.isAuthenticated,
+router.post('/fetch-fit-data/:numberOfDaysList',     
     authMiddleware.authenticateUser,
     userController.fetchGoogleFitData
 );
 
+router.post('/update-user-details',
+    authMiddleware.authenticateUser,
+    userController.updateUserDetails
+);
 
+router.post('/get-user-details',
+    authMiddleware.authenticateUser,
+    userController.getUserDetails
+);
 
 module.exports = router;

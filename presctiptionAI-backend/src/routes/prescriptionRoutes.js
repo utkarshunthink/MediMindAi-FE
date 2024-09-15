@@ -2,33 +2,30 @@ const express = require('express');
 const router = express.Router();
 
 const prescriptionController = require('../controllers/prescriptionController')
-
 const authMiddleware = require('../middlewares/authMiddleware');
 
-
-router.get(
+router.post(
     '/get-prescription/:id', 
-    // authMiddleware.isAuthenticated,
+    authMiddleware.authenticateUser,
     prescriptionController.getPrescriptions
 );
 
 router.post(
     '/store', 
-    // authMiddleware.isAuthenticated,
+    authMiddleware.authenticateUser,
     prescriptionController.savePrescriptions
 );
 
 router.post(
     '/get-user-prescription', 
-    // authMiddleware.isAuthenticated,
+    authMiddleware.authenticateUser,
     prescriptionController.getUserPrescriptions
 );
 
 router.post(
     '/get-user-prescription-with-past-symptoms', 
-    // authMiddleware.isAuthenticated,
+    authMiddleware.authenticateUser,
     prescriptionController.getUserPrescriptionsWithPastData
 );
-
 
 module.exports = router;

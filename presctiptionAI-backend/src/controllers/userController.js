@@ -35,21 +35,6 @@ const resetPassword = async (req, res, next) => {
     .catch((next));
 };
 
-// exports.loginSuccess = (req, res) => {
-//     if (req.user) {
-//         res.status(200).json({
-//             success: true,
-//             message: "User authenticated",
-//             user: req.user
-//         });
-//     } else {
-//         res.status(403).json({
-//             success: false,
-//             message: "No user logged in"
-//         });
-//     }
-// };
-
 const googleCallbackRedirect = async (req, res) => {
     return userService.handleGoogleCallback(req, res);
 };
@@ -65,6 +50,21 @@ const sendDataTFrontend = async = (req, res, next) => {
     return userService.sendDataTFrontend(req, res);
 }
 
+const updateUserDetails = async (req, res, next) => {
+    const {gender, height, weight, chest, hips, dateOfBirth } = req.body;
+    const userId = req.user.userId;
+    return userService.updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth)
+    .then((result) => successResponse(res, result, 'User details updated successfully', 201))
+    .catch((next));
+};
+
+const getUserDetails = async = (req, res, next) => {
+    const userId = req.user.userId;
+    console.log("🚀 ~ getUserDetails ~ userId:", userId);
+    return userService.getUserDetails(userId)
+    .then((result) => successResponse(res, result, 'User details fetched successfully', 201))
+    .catch((next));}
+
 module.exports = {
     register,
     login,
@@ -72,5 +72,7 @@ module.exports = {
     resetPassword,
     googleCallbackRedirect,
     fetchGoogleFitData,
-    sendDataTFrontend
+    sendDataTFrontend,
+    updateUserDetails,
+    getUserDetails
 };

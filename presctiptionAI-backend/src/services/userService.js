@@ -21,9 +21,8 @@ const register = async (userData) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await userModel.createUser(name, email, hashedPassword, false);
-        console.log("🚀 ~ register ~ newUser:", newUser);
 
-        const token = jwtHelper.generateToken({ id: newUser.id, email: newUser.email, isGoogleLogin: false });
+        const token = jwtHelper.generateToken({ userId: newUser.id, email: newUser.email, isGoogleLogin: false });
 
         return { user: newUser, token };
     } catch (error) {
@@ -41,8 +40,8 @@ const login = async (name, email, password) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) throw new ApiError('Invalid credentials', 401);
 
-        const token = jwtHelper.generateToken({ id: user.id, email: user.email, name: user.name, isGoogleLogin: (user.google_id) ? true: false });
-        return { user: { id: user.id, email: user.email, name: user.name }, token, isGoogleLogin: false };
+        const token = jwtHelper.generateToken({ userId: user.id, email: user.email, name: user.name, isGoogleLogin: (user.google_id) ? true: false });
+        return { user: { userId: user.id, email: user.email, name: user.name }, token, isGoogleLogin: false };
     } catch (error) {
         throw new ApiError(error.message, error.statusCode || 500);
     }
@@ -111,29 +110,27 @@ const handleGoogleCallback = async (req, res) => {
 };
 
 const googleLogin = async (params, profile) => {
-    console.log("🚀 ~ googleLogin ~ profile:", profile);
-    const payload = {}
-    payload.email = params.emails[0].value
+    let user;
+    const payload = {};
+
+    payload.email = params.emails[0].value;
     payload.name = params.displayName;
-    payload.userId = params.id;
     payload.isGoogleLogin = true;
-    payload.expireIn = profile.expires_in
+    payload.expireIn = profile.expires_in;
     payload.accessToken = profile.access_token;
-    payload.refreshToken = profile.refresh_token
+    payload.refreshToken = profile.refresh_token;
 
     if (!payload.email) {
         return done(new ApiError('No email found for the user.'), null);
     }
 
-    const user = await userModel.findUserByEmail(payload.email);
+    user = await userModel.findUserByEmail(payload.email);
     
-    console.log("🚀 ~ login ~ user:", user);
     if (!user) {
-        await userModel.createUser(payload.name, payload.email, null, true);
-        //store user details
-
+        user = await userModel.createUser(payload.name, payload.email, null, true);
     }
 
+    payload.userId = user.id;
     const token = jwtHelper.generateToken(payload);
     payload.token = token;
 
@@ -155,8 +152,6 @@ function createRequestBodyForGoogleFit(startOffsetDays = 7, durationMillis = 864
 }
 
 const fetchGoogleFitData = async (req, res, next) => {
-    console.log("🚀 ~ fetchGoogleFitData.get ~ req:", req.user, req.query);
-
     // Check for authenticated user
     if (!req.user || !req.user.accessToken) {
         throw new ApiError('User not authenticated or missing access token', 401);
@@ -181,7 +176,6 @@ const fetchGoogleFitData = async (req, res, next) => {
     
             // Create the request body with only available data types and the specified duration
             const requestBody = createRequestBodyForGoogleFit(numberOfDaysList[i], 86400000); // Using 7 days and 1 day duration
-            console.log("🚀 ~ fetchGoogleFitData ~ requestBody:", requestBody);
             // Aggregate the data
             const response = await fitness.users.dataset.aggregate({
                 userId: 'me',
@@ -251,6 +245,30 @@ const sendDataTFrontend = (req, res) => {
     res.redirect(frontendURL);
 }
 
+const updateUserDetails = async (userId, gender, height, weight, chest, hips, dateOfBirth) => {
+    try {
+        const result = await userModel.updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth)
+        console.log("🚀 ~ updateUserDetails ~ result:", result);
+
+        return result;
+    } catch (error) {
+        console.error("🚀 ~ register ~ error:", error);
+        throw new ApiError(error.message, error.statusCode || 500);
+    }
+};
+
+const getUserDetails = async (userId) => {
+    try {
+        const result = await userModel.getUserDetails(userId)
+        console.log("🚀 ~ getUserDetails ~ result:", result);
+
+        return result;
+    } catch (error) {
+        console.error("🚀 ~ register ~ error:", error);
+        throw new ApiError(error.message, error.statusCode || 500);
+    }
+};
+
 module.exports = {
     register,
     login,
@@ -260,5 +278,7 @@ module.exports = {
     googleLogin,
     handleGoogleCallback,
     fetchGoogleFitData,
-    sendDataTFrontend
+    sendDataTFrontend,
+    updateUserDetails,
+    getUserDetails
 };

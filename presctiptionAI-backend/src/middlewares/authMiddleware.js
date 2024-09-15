@@ -28,7 +28,7 @@ function isAuthenticated(req, res, next) {
 const authenticateUser = (req, res, next) => {
     try {
         const bearerToken = req.headers.authorization; // Extract bearerToken from headers
-        console.log("🚀 ~ authenticateUser ~ bearerToken:", bearerToken, req.headers.authorization);
+        // console.log("🚀 ~ authenticateUser ~ bearerToken:", bearerToken, req.headers.authorization);
         if (!bearerToken) {
             throw new ApiError('No token provided', 401);
         }
@@ -37,7 +37,7 @@ const authenticateUser = (req, res, next) => {
         if (!token) {
             throw new ApiError('No token provided', 401);
         }
-        
+
         const decoded = jwtHelper.verifyToken(token);
         console.log("🚀 ~ authenticateUser ~ decoded:", decoded);
         req.user = decoded;

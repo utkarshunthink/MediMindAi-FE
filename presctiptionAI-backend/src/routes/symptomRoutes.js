@@ -2,15 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 const symptomController = require('../controllers/symptomController');
-
 const authMiddleware = require('../middlewares/authMiddleware');
 
-
-router.get(
+router.post(
     '/get-symptoms', 
-    // authMiddleware.isAuthenticated,
+    authMiddleware.authenticateUser,
     symptomController.getSymptoms
 );
-
 
 module.exports = router;

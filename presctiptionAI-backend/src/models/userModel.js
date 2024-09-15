@@ -56,6 +56,27 @@ async function getUserTokens(userId) {
     return result.rows[0];
 }
 
+async function updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth) {
+    const query = `
+      INSERT INTO user_details (user_id, gender, height, weight, chest, hips, date_of_birth)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *;
+    `;
+    const values = [userId, gender, height, weight, chest, hips, dateOfBirth];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  }
+
+  const getUserDetails = async (userId) => {
+    const query = `SELECT * FROM users u
+    LEFT JOIN
+    user_details ud ON ud.user_id = u.id
+    WHERE id = $1;`;
+    
+    const result = await pool.query(query, [userId]);
+    return result.rows[0];
+};
+
 module.exports = {
     createUser,
     findUserByEmail,
@@ -63,5 +84,7 @@ module.exports = {
     findUserByResetToken,
     updateUserPassword,
     findOrCreateUser,
-    getUserTokens
+    getUserTokens,
+    updateUserDetails,
+    getUserDetails
 };
