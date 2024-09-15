@@ -83,8 +83,85 @@
     display: grid;
     align-items: center;
     grid-template-columns: 50% 50%;
+    .login-image{
+      img{
+        max-width: 100%;
+      }
+    }
     .login-form {
       width: 100%;
+    }
+  }
+
+  .search-medicine{
+    background: var(--white-color);
+    border-radius: 24px;
+    padding: 50px 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .search-med-head{
+      text-align: center;
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .search-input{
+      text-align: center;
+      input{
+        width: 95%;
+        border: 1px solid var(--white-shade);
+        color: var(--almost-black);
+        font-size: 16px;
+        border-radius: 12px;
+        background: var(--secondary-color);
+        outline: none;
+        height: 48px;
+        padding-left: 30px;
+      }
+    }
+    .searched-medicines{
+      height: 400px;
+      overflow: auto;
+      .medicines{
+        display: flex;
+        gap: 20px;
+        border: 1px solid var(--white-shade);
+        border-radius: 12px;
+        margin-bottom: 5px;
+        padding: 15px;
+        .medi-img{
+          width: 200px;
+          height: 200px;
+          overflow: hidden;
+          flex-shrink: 0;
+          border-radius: 12px;
+          img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .medicine-details{
+          .name{
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 36px;
+          }
+          .other-details{
+            font-size: 14px;
+          }
+          .side-effects{
+            color: #CA6B6E;
+          }
+        }
+
+      }
+    }
+    .no-results{
+      text-align: center;
+      font-size: 14px;
+      margin-top: 20px;
     }
   }
 }

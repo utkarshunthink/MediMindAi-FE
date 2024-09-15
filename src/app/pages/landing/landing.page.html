@@ -40,5 +40,39 @@
       ></app-signup>
     </div>
   </div>
-  <div class="about-card"></div>
+  <div class="divider"></div>
+  <div class="search-medicine">
+    <div class="search-med-head">Search Medicines</div>
+    <div class="search-input">
+      <input
+        type="text"
+        placeholder="Search medicine by name or salt name."
+        [(ngModel)]="searchMedicine"
+        (input)="onSearch()"
+      />
+    </div>
+    <div class="searched-medicines" *ngIf="medicines.length">
+      <div class="medicines" *ngFor="let medicine of medicines;">
+        <div class="medi-img">
+          <img [src]="medicine.image_url" alt="medicine" />
+        </div>
+        <div class="medicine-details">
+          <div class="name">{{medicine.name}}</div>
+          <div class="other-details">{{medicine.composition}}</div>
+          <div class="other-details"><span>Uses: </span>{{medicine.uses}}</div>
+          <div class="other-details side-effects">
+            {{medicine.side_effects}}
+          </div>
+          <div class="other-details">
+            <span>Review in percentage </span>
+            {{medicine.excellent_review_percent}}%
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="no-results" *ngIf="!medicines.length">
+      No results found. Please try searching with a different medicine name or
+      salt.
+    </div>
+  </div>
 </div>
