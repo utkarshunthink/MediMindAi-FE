@@ -2,32 +2,32 @@
   <div class="image">
     <img [src]="images.loginPrescription" alt="" />
   </div>
-  <div class="profile-form">
+  <div class="profile-form" *ngIf="updateProfileForm" [formGroup]="updateProfileForm">
     <h3 class="title">{{ titles.profile }}</h3>
     <div class="input-field gender">
-      <select name="gender">
+      <select name="gender" formControlName="gender">
         <option value="" selected disabled>{{ titles.gender }}</option>
         <option value="male">Male</option>
         <option value="female">Female</option>
       </select>
     </div>
     <div class="input-field dob">
-      <input type="date" class="date-control" >
+      <input type="date" class="date-control" formControlName="date_of_birth">
     </div>
     <div class="input-field height">
-      <input type="number" [placeholder]="titles.heightProfile" />
+      <input type="number" [placeholder]="titles.heightProfile" formControlName="height"/>
     </div>
     <div class="input-field weight">
-      <input type="number" [placeholder]="titles.weightProfile" />
+      <input type="number" [placeholder]="titles.weightProfile" formControlName="weight"/>
     </div>
     <div class="input-field waist">
-      <input type="number" [placeholder]="titles.waist" />
+      <input type="number" [placeholder]="titles.waist" formControlName="waist"/>
     </div>
     <div class="input-field chest">
-      <input type="number" [placeholder]="titles.chest" />
+      <input type="number" [placeholder]="titles.chest" formControlName="chest"/>
     </div>
     <div class="input-field hip">
-      <input type="number" [placeholder]="titles.hip" />
+      <input type="number" [placeholder]="titles.hip" formControlName="hips"/>
     </div>
     <div class="btn-wrapper">
       <button class="primary-btn" (click)="updateProfile()">
