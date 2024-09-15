@@ -30,7 +30,6 @@ const getUserPrescriptionsWithPastData = async (req, res, next) => {
         name: req.user?.name,
         userId: req.user.user_id,
     }
-    console.log(req.user, 'afaf');
     return prescriptionService.getUserPrescriptionsWithPastData(userDetails, symptoms, allergies, medicineType)
     .then((result) => successResponse(res, result, 'Prescription generated successfully'))
     .catch((next));
