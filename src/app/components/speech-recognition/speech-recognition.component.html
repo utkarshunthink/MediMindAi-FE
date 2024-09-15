@@ -1,0 +1,5 @@
+  <div
+       [ngClass]="{'listening': isListening}"
+       (click)="isListening ? stopRecognition() : startRecognition()">
+       <img class="mic-icon" [src]="isListening ? images.micAnime : images.mic" alt="Speech Recognition" />
+     </div>
