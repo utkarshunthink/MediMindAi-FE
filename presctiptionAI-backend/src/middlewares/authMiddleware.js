@@ -26,13 +26,18 @@ function isAuthenticated(req, res, next) {
 }
 
 const authenticateUser = (req, res, next) => {
-    const token = req.headers.authorization; // Extract token from headers
-    console.log("🚀 ~ authenticateUser ~ token:", token, req.headers.authorization);
-    if (!token) {
-        throw new ApiError('No token provided', 401);
-    }
-
     try {
+        const bearerToken = req.headers.authorization; // Extract bearerToken from headers
+        console.log("🚀 ~ authenticateUser ~ bearerToken:", bearerToken, req.headers.authorization);
+        if (!bearerToken) {
+            throw new ApiError('No token provided', 401);
+        }
+
+        const token = bearerToken.split(' ')[1];
+        if (!token) {
+            throw new ApiError('No token provided', 401);
+        }
+        
         const decoded = jwtHelper.verifyToken(token);
         console.log("🚀 ~ authenticateUser ~ decoded:", decoded);
         req.user = decoded;

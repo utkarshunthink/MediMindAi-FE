@@ -7,7 +7,6 @@ const config = require('../config/config');
 const moment = require('moment');
 const passport = require('passport');
 const { google } = require('googleapis');
-const { APIError } = require('@anthropic-ai/sdk');
 
 // const passport = require('./../utils/passportConfig');
 
@@ -163,10 +162,9 @@ const fetchGoogleFitData = async (req, res, next) => {
 
     // Check for authenticated user
     if (!req.user || !req.user.accessToken) {
-        return next(new ApiError('User not authenticated or missing access token', 401));
+        throw new ApiError('User not authenticated or missing access token', 401);
     }
 
-    const {fromDay} = req.query;
     const accessToken = req.user.accessToken;
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({ access_token: accessToken });
@@ -174,17 +172,32 @@ const fetchGoogleFitData = async (req, res, next) => {
     const fitness = google.fitness({ version: 'v1', auth: oauth2Client });
 
     try {
-        // Create the request body with only available data types and the specified duration
-        const requestBody = createRequestBodyForGoogleFit(fromDay, 86400000); // Using 7 days and 1 day duration
-        console.log("🚀 ~ fetchGoogleFitData ~ requestBody:", requestBody);
-        // Aggregate the data
-        const response = await fitness.users.dataset.aggregate({
-            userId: 'me',
-            requestBody: requestBody
-        });
 
+        let numberOfDaysList = [1];
+        const fitDataList = [];
+
+        if (req?.params?.numberOfDaysList) {
+            numberOfDaysList = req?.params?.numberOfDaysList.split(',');
+        }
+
+        for(i = 0; i < numberOfDaysList.length; i++){
+    
+            // Create the request body with only available data types and the specified duration
+            const requestBody = createRequestBodyForGoogleFit(numberOfDaysList[i], 86400000); // Using 7 days and 1 day duration
+            console.log("🚀 ~ fetchGoogleFitData ~ requestBody:", requestBody);
+            // Aggregate the data
+            const response = await fitness.users.dataset.aggregate({
+                userId: 'me',
+                requestBody: requestBody
+            });
+            fitDataList.push(response.data);
+        }
+
+        if(!fitDataList.length){
+            throw new ApiError('Error fetching Google Fit data', 500);
+        }
         // Send the aggregated data as response
-        return response && response.data;
+        return fitDataList;
     } catch (error) {
         console.error('Error fetching Google Fit data:', error);
         throw new ApiError('Error fetching Google Fit data:', 500)
