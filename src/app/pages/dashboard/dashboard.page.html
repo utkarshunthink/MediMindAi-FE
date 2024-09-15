@@ -53,22 +53,22 @@
           <img [src]="images.scale" alt="" />
           <div class="height-weight-value">
             <label>{{titles.height}}</label>
-            <span>170 cm</span>
+            <span>{{height}}cm</span>
           </div>
         </div>
         <div class="height-weight weight">
           <img [src]="images.scale" alt="" />
           <div class="height-weight-value">
             <label>{{titles.weight}}</label>
-            <span>72 kg</span>
+            <span>{{weight}} Kg</span>
           </div>
         </div>
       </div>
       <div class="bmi-scale">
         <span class="bmi-title">{{titles.bodyMassIndex}}</span>
         <div class="bmi-value-container">
-          <span class="bmi-value">24.9</span>
-          <span class="bmi-status">{{titles.youAreHealthy}}</span>
+          <span class="bmi-value">{{bmiValue}}</span>
+          <span class="bmi-status">{{bmiStatus}}</span>
         </div>
         <div class="bmi-progress">
           <mat-progress-bar mode="determinate" [value]="getBmiProgressBarValue()"></mat-progress-bar>
@@ -97,7 +97,7 @@
           </span>
         </div>
       </div>
-      <img class="human-img" [src]="images.humanBody" alt="" />
+      <img class="human-img" [src]="humanBodyImage" alt="Human Body" />
     </div>
   </section>
 </div>

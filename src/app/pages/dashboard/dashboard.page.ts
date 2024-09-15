@@ -16,6 +16,21 @@ import { ActivityGrowthChartComponent } from '../activity-growth-chart/activity-
 export class DashboardPage {
   public titles = TITLES;
   public images = IMAGES;
+  public weight: number;
+  public height: number;
+  public bmiValue: number;
+  public bmiStatus: string;
+
+  constructor(private apiService: ApiService) {
+    this.weight = 1000; // Default weight
+    this.height = 199; // Default height
+    this.bmiValue = 0; // Default BMI
+    this.bmiStatus = ''; // Default status
+    this.calculateBMI();
+    this.updateBMIStatus();
+  }
+
+
   public healthMetrics = [
     {
       title: "Blood Sugar",
@@ -53,8 +68,6 @@ export class DashboardPage {
     }
   ];
 
-  constructor(private apiService: ApiService){}
-
   getBmiProgressBarValue() {
     const inputValue = 24.9;
     const minScaleValue = 15;
@@ -90,4 +103,34 @@ export class DashboardPage {
     }).catch(err=> console.log(err));
   }
 
+  calculateBMI() {
+    if (this.height > 0) {
+      this.bmiValue = this.weight / (this.height * this.height)*10000;
+      this.bmiValue = parseFloat(this.bmiValue.toFixed(2)); // Format BMI to 2 decimal places
+      this.updateBMIStatus();
+    } else {
+      this.bmiValue = 0; // Reset BMI if height is not valid
+      this.bmiStatus = 'Please enter a valid height.';
+    }
+  }
+
+  updateBMIStatus() {
+    if (this.bmiValue < 18.5) {
+      this.bmiStatus = 'You are underweight.';
+    } else if (this.bmiValue >= 18.5 && this.bmiValue < 24.9) {
+      this.bmiStatus = 'You are healthy.';
+    } else {
+      this.bmiStatus = 'You are overweight';
+    }
+  }
+
+  get humanBodyImage() {
+    if (this.bmiValue < 18.5) {
+      return this.images.humanBodySlim; // Underweight
+    } else if (this.bmiValue >= 18.5 && this.bmiValue < 24.9) {
+      return this.images.humanBodyFit; // Normal weight
+    } else {
+      return this.images.humanBodyFat; // Overweight or Obesity
+    }
+  }
 }

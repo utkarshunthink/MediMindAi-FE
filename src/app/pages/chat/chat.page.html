@@ -11,6 +11,9 @@
         [(ngModel)]="symptom"
         (keydown.enter)="addSymptom()"
       />
+      <div class="mic-btn">
+      <app-speech-recognition (speechData)="handleSpeechData($event)"></app-speech-recognition>
+    </div>
       <div
         class="add-btn"
         [ngClass]="{'disable-btn': !symptom, 'enable-btn': symptom}"

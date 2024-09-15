@@ -1,4 +1,12 @@
-<app-prescription [prescription]="prescription"></app-prescription>
+<div class="button-container">
+  <button (click)="speak(prompt)" *ngIf="!isSpeaking">
+    <img [src]='images.play' alt="Play"/>
+  </button>
+  <button (click)="pauseSpeech()" *ngIf="isSpeaking">
+    <img [src]='images.pause' alt="Pause"/>
+  </button>
+</div>
+
 <div class="prescription" *ngIf="prescription">
   <div class="patient-profile prescription-container">
     <div class="patient-img">
