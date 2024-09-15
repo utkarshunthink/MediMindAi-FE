@@ -6,7 +6,7 @@ const medicineController = require('../controllers/medicineController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 
-router.get(
+router.post(
     '/get-medicines', 
     // authMiddleware.isAuthenticated,
     medicineController.getMedicines

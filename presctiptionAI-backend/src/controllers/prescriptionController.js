@@ -28,6 +28,7 @@ const savePrescriptions = async (req, res, next) => {
 
 const getUserPrescriptionsWithPastData = async (req, res, next) => {
     const { symptoms, allergies, medicineType } = req.query;
+    console.log(req.user, 'userss');
     console.log("🚀 ~ getPrescriptions ~ symtoms, allergies, medicineType:", symptoms, allergies, medicineType);
     return prescriptionService.getUserPrescriptionsWithPastData(symptoms, allergies, medicineType)
     .then((result) => successResponse(res, result, 'User logged in successfully'))

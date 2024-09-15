@@ -20,10 +20,10 @@ const register = async (userData) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = await userModel.createUser({ name, email, password: hashedPassword });
+        const newUser = await userModel.createUser(name, email, hashedPassword, false);
         console.log("🚀 ~ register ~ newUser:", newUser);
 
-        const token = jwtHelper.generateToken({ id: newUser.id, email: newUser.email });
+        const token = jwtHelper.generateToken({ id: newUser.id, email: newUser.email, isGoogleLogin: false });
 
         return { user: newUser, token };
     } catch (error) {
@@ -32,16 +32,17 @@ const register = async (userData) => {
     }
 };
 
-const login = async (email, password) => {
+const login = async (name, email, password) => {
     try {
         const user = await userModel.findUserByEmail(email);
+        console.log("🚀 ~ login ~ user:", user);
         if (!user) throw new ApiError('User not found', 404);
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) throw new ApiError('Invalid credentials', 401);
 
-        const token = jwtHelper.generateToken({ id: user.id, email: user.email });
-        return { user: { id: user.id, email: user.email }, token };
+        const token = jwtHelper.generateToken({ id: user.id, email: user.email, name: user.name, isGoogleLogin: (user.google_id) ? true: false });
+        return { user: { id: user.id, email: user.email, name: user.name }, token, isGoogleLogin: false };
     } catch (error) {
         throw new ApiError(error.message, error.statusCode || 500);
     }
@@ -109,44 +110,40 @@ const handleGoogleCallback = async (req, res) => {
     }
 };
 
-const googleLogin = (params, profile) => {
+const googleLogin = async (params, profile) => {
+    console.log("🚀 ~ googleLogin ~ profile:", profile);
     const payload = {}
     payload.email = params.emails[0].value
     payload.name = params.displayName;
     payload.userId = params.id;
-    payload.googleLogin = true;
+    payload.isGoogleLogin = true;
     payload.expireIn = profile.expires_in
     payload.accessToken = profile.access_token;
     payload.refreshToken = profile.refresh_token
 
-    const TOKEN_LIFETIME = payload.expireIn * 1000;  // example value from Google OAuth response
-    // const accessTokenIssueTime = Date.now();
-    // const tokenExpiryTime = accessTokenIssueTime + (TOKEN_LIFETIME * 1000);  // Store expiry time in milliseconds
-
-    // Get the current timestamp
-    const accessTokenIssueTime = moment();
-
-    // Calculate the expiry time by adding the token lifetime
-    const tokenExpiryTime = accessTokenIssueTime.clone().add(TOKEN_LIFETIME, 'milliseconds');
-
-    // Format both the issue time and expiry time
-    const formattedIssueTime = accessTokenIssueTime.format('YYYY-MM-DD HH:mm:ss.SSSSSS');
-    const formattedExpiryTime = tokenExpiryTime.format('YYYY-MM-DD HH:mm:ss.SSSSSS');
-
-    console.log("Access Token Issue Time:", formattedIssueTime);  // e.g., "2024-09-14 15:03:29.878997"
-    console.log("Token Expiry Time:", formattedExpiryTime);
     if (!payload.email) {
         return done(new ApiError('No email found for the user.'), null);
     }
 
+    const user = await userModel.findUserByEmail(payload.email);
+    
+    console.log("🚀 ~ login ~ user:", user);
+    if (!user) {
+        await userModel.createUser(payload.name, payload.email, null, true);
+        //store user details
+
+    }
+
     const token = jwtHelper.generateToken(payload);
-    console.log("🚀 ~ token:", token);
+    payload.token = token;
+
+    return payload
 }
 
 function createRequestBodyForGoogleFit(startOffsetDays = 7, durationMillis = 86400000) {
 
     const aggregates = config.googleFitAggregates;
-
+      
     return {
         aggregateBy: aggregates,
         bucketByTime: {
@@ -249,6 +246,7 @@ const fetchGoogleFitData = async (req, res, next) => {
 const sendDataTFrontend = (req, res) => {
     const userObj = req.user || null;
     const token = userObj?.token || '';
+    // await userModel.saveUser();
     const frontendURL = `http://localhost:4200/home/dashboard?token=${token}`;
     res.redirect(frontendURL);
 }

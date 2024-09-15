@@ -20,34 +20,11 @@ passport.use(new GoogleStrategy({
     prompt: 'consent',
     approvalPrompt: 'force'
 }, async (req, accessToken, refreshToken, profile, params, done) => {
-    console.log(params, 'papapa')
-    console.log(profile, 'prprpr')
-    
     try {
 
-        // const result = await userService.googleLogin(params, profile);
-        const payload = {}
-        payload.email = params.emails[0].value
-        payload.name = params.displayName;
-        payload.userId = params.id;
-        payload.googleLogin = true;
-        payload.expireIn = profile.expires_in
-        payload.accessToken = profile.access_token;
-        payload.refreshToken = profile.refresh_token
-
-        if (!payload.email) {
-            return done(new Error('No email found for the user.'), null);
-        }
-
-        // const token = ''
-        // const user = await findOrCreateUser({ email, name, id, accessToken, refreshToken });
-
-        const token = jwtHelper.generateToken(payload);
-        payload.token = token;
-        console.log("🚀 ~ token:", token);
-        // user.accessToken = accessToken;
-        // user.refreshToken = refreshToken;
-
+        const payload = await userService.googleLogin(params, profile);
+        console.log("🚀 ~ payload:", payload);
+       
         done(null, payload);
     } catch (error) {
         console.error('Error during user find or create:', error);

@@ -35,8 +35,22 @@ router.post(
 
 // Logout route
 router.get('/logout', (req, res) => {
-    req.logout();
-    res.json({ success: true, message: 'Logged out successfully' });
+    // Logout and destroy session
+    req.logout((err) => {
+        if (err) { return next(err); }
+        
+        // Destroy session if using express-session
+        req.session.destroy(() => {
+            // res.clearCookie('connect.sid');  // Clear the session cookie
+            res.clearCookie('connect.sid', {
+                path: '/', 
+                httpOnly: true, 
+                secure: false, // Set to true if using HTTPS
+                sameSite: 'strict' // or 'lax' based on your requirements
+            })
+            res.status(200).json({ message: 'Logged out successfully' });
+        });
+    });
 });
 
 router.get('/auth/google',

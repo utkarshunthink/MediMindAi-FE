@@ -1,14 +1,14 @@
 const pool = require('../startup/db/pool');
 
 // Create a new user
-const createUser = async (userData) => {
-    const { name, email, password } = userData;
+const createUser = async (name, email, password, isGoogleVerified) => {
+    // const { name, email, password } = userData;
     const query = `
-        INSERT INTO users (name, email, password)
-        VALUES ($1, $2, $3)
-        RETURNING id, name, email;
+        INSERT INTO users (name, email, password, is_google_verified)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, name, email, is_google_verified;
     `;
-    const result = await pool.query(query, [name, email, password]);
+    const result = await pool.query(query, [name, email, password, isGoogleVerified]);
     return result.rows[0];
 };
 

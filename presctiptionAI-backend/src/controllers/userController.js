@@ -13,8 +13,8 @@ const register = async (req, res, next) => {
 
 // Controller to login user
 const login = async (req, res, next) => {
-    const { email, password } = req.body;
-    return userService.login(email, password)
+    const { name, email, password } = req.body;
+    return userService.login(name, email, password)
     .then((result) => successResponse(res, result, 'User logged in successfully'))
     .catch((next));
 };

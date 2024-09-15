@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const moment = require('moment');
 const config = require('../config/config');
 const Anthropic = require('@anthropic-ai/sdk');
+const emailService = require('../utils/emailConfig');
 
 const getPrescriptions = async (id ) => {
     try {        
@@ -37,6 +38,7 @@ const getUserPrescriptionsWithPastData = async (symptoms, allergies, medicineTyp
         //call claude api
         const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
         prescriptionModel.savePrescriptions(newPrescriptions);
+        // emailService.sendEmail()
 
         return {
             prescriptionWithSymptoms: newPrescriptions
