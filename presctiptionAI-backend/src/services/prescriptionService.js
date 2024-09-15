@@ -23,11 +23,14 @@ const getPrescriptions = async (id ) => {
 };
 
 const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies, medicineType ) => {
+    console.log("🚀 ~ getUserPrescriptionsWithPastData ~ userDetails, symptoms, allergies, medicineType:", userDetails, symptoms, allergies, medicineType);
     try {        
         // Fetch medicines with pagination
         const prescriptionWithSymptoms = await prescriptionModel.prescriptionWithSymptoms(symptoms, allergies, medicineType);
+        console.log("🚀 ~ getUserPrescriptionsWithPastData ~ prescriptionWithSymptoms:", prescriptionWithSymptoms.length);
 
         if(prescriptionWithSymptoms.length > 0){
+            emailService.sendEmail(userDetails, prescriptionWithSymptoms);
             return {
                 prescriptionWithSymptoms: prescriptionWithSymptoms[0]
             };
@@ -35,9 +38,11 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
 
         //call claude api
         const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
+        console.log("🚀 ~ getUserPrescriptionsWithPastData ~ newPrescriptions:", newPrescriptions);
         prescriptionModel.savePrescriptions(newPrescriptions);
         console.log(userDetails, 'aaa');
-        // emailService.sendEmail();
+        
+        emailService.sendEmail(userDetails, newPrescriptions);
 
         return {
             prescriptionWithSymptoms: newPrescriptions

@@ -8,7 +8,6 @@ const moment = require('moment');
 const passport = require('passport');
 const { google } = require('googleapis');
 
-// const passport = require('./../utils/passportConfig');
 
 const register = async (userData) => {
     try {

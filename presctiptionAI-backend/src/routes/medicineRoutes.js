@@ -7,7 +7,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 router.post(
     '/get-medicines', 
-    authMiddleware.authenticateUser,
+    // authMiddleware.authenticateUser,
     medicineController.getMedicines
 );
 
