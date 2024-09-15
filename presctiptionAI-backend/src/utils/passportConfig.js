@@ -23,10 +23,7 @@ passport.use(new GoogleStrategy({
         const payload = await userService.googleLogin(params, profile);
         const token = jwtHelper.generateToken(payload);
         payload.token = token;
-        console.log("🚀 ~ token:", token);
-        // user.accessToken = accessToken;
-        // user.refreshToken = refreshToken;
-
+        
         done(null, payload);
     } catch (error) {
         console.error('Error during user find or create:', error);
@@ -35,17 +32,12 @@ passport.use(new GoogleStrategy({
 }));
 
 passport.serializeUser((payload, done) => {
-    console.log("🚀 ~ passport.serializeUser ~ user:", payload);
     done(null, payload);
 });
 
-passport.deserializeUser(async (payload, done) => {
-    console.log("🚀 ~ passport.deserializeUser ~ user:", payload);
-    
+passport.deserializeUser(async (payload, done) => {    
     try {
-        result = {rows: ['aa']}
-        // const result = await pool.query('SELECT * FROM users WHERE id = $1', [user.id]);
-        if (result.rows.length > 0) {
+        if (payload.accessToken) {
             done(null, payload); // Return the user object
         } else {
             done(new Error('User not found'), false);

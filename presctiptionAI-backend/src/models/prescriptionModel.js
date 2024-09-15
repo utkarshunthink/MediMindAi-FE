@@ -14,14 +14,11 @@ const getUserPrescriptions = async (userId) => {
     WHERE user_id = $1 ORDER BY up.created_at DESC`;
     
     const result = await pool.query(query, [userId]);
-    console.log("🚀 ~ getUserPrescriptions ~ result:", result.rows);
 
     return result.rows;
 };
 
 const prescriptionWithSymptoms = async (symptoms, allergies, medicineType) => {
-    console.log("🚀 ~ getPrescriptions ~ symptoms, allergies, medicineType:", symptoms, allergies, medicineType);
-
     const query = `SELECT  medicines AS "medicines",
     symptoms AS "symptoms",
     precautions AS "precautions",
@@ -36,7 +33,6 @@ const prescriptionWithSymptoms = async (symptoms, allergies, medicineType) => {
     medicine_type AS "medicineType" FROM prescriptions WHERE symptoms = $1 AND allergies = $2 AND medicine_type = $3 ORDER BY created_at DESC`;
 
     const result = await pool.query(query, [symptoms, allergies, medicineType]);
-    console.log("🚀 ~ getUserPrescriptions ~ result:", result.rows);
 
     return result.rows;
 };

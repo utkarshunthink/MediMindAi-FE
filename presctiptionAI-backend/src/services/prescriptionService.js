@@ -24,6 +24,29 @@ const getPrescriptions = async (id ) => {
 
 const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies, medicineType ) => {
     console.log("🚀 ~ getUserPrescriptionsWithPastData ~ userDetails, symptoms, allergies, medicineType:", userDetails, symptoms, allergies, medicineType);
+    
+    const MAX_RETRIES = 3; // Maximum number of retries for Claude AI API
+    const RETRY_DELAY = 2000; // Delay between retries in milliseconds (e.g., 2000ms = 2 seconds)
+
+    const retryClaudeAICall = async (symptoms, allergies, medicineType, attempt = 1) => {
+        try {
+            // Attempt to get a response from Claude AI API
+            const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
+            return newPrescriptions;
+        } catch (error) {
+            console.error(`Attempt ${attempt} failed to fetch from Claude AI. Error:`, error.message);
+            
+            if (attempt < MAX_RETRIES) {
+                console.log(`Retrying Claude AI API call in ${RETRY_DELAY / 1000} seconds...`);
+                await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY)); // Delay before retrying
+                return retryClaudeAICall(symptoms, allergies, medicineType, attempt + 1); // Recursive retry
+            } else {
+                throw new ApiError("Failed to fetch response from Claude AI after multiple attempts.", 500);
+            }
+        }
+    };
+
+
     try {        
         // Fetch medicines with pagination
         const prescriptionWithSymptoms = await prescriptionModel.prescriptionWithSymptoms(symptoms, allergies, medicineType);
@@ -36,8 +59,11 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
             };
         }
         //call claude api
-        const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
-        console.log("🚀 ~ getUserPrescriptionsWithPastData ~ newPrescriptions:", newPrescriptions);
+        // const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
+
+        // Call Claude AI API with retry mechanism
+        const newPrescriptions = await retryClaudeAICall(symptoms, allergies, medicineType);
+
         const prescriptionId = await prescriptionModel.savePrescriptions(newPrescriptions);
         await prescriptionModel.saveUsersPrescriptions(prescriptionId.id, userDetails.userId);
 
@@ -94,6 +120,7 @@ const getPrescriptionWithClaudeAI = async (symtoms, allergies, medicineType) => 
         max_tokens: 1024,
         messages: [{ role: "user", content: prompt }],
     });
+
     console.log("🚀 ~ getPrescriptionWithClaudeAI ~ msg:", msg);
     
     return JSON.parse(msg.content[0].text);

@@ -39,7 +39,6 @@ const authenticateUser = (req, res, next) => {
         }
 
         const decoded = jwtHelper.verifyToken(token);
-        console.log("🚀 ~ authenticateUser ~ decoded:", decoded);
         req.user = decoded;
         next();
     } catch (error) {
