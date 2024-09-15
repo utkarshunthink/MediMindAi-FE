@@ -56,7 +56,9 @@ const googleCallbackRedirect = async (req, res) => {
     
 
 const fetchGoogleFitData = async (req, res, next) => {
-    return userService.fetchGoogleFitData(req, res, next);
+    return userService.fetchGoogleFitData(req, res, next)
+    .then((result) => successResponse(res, result, 'Google Fit data fetched Data successfully'))
+    .catch((next));
 } 
 
 const sendDataTFrontend = async = (req, res, next) => {

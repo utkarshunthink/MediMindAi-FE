@@ -10,7 +10,9 @@ const getPrescriptions = async (id) => {
 const getUserPrescriptions = async (userId) => {
     console.log("🚀 ~ getPrescriptions ~ userId:", userId);
 
-    const query = 'SELECT * FROM user_prescriptions WHERE user_id = $1 ORDER BY created_at DESC';
+    const query = `SELECT p.symptoms, p.allergies, p.medicine_type, up.prescription_id, up.user_id, up.created_at FROM user_prescriptions up
+    INNER JOIN prescriptions p ON up.prescription_id = p.id
+    WHERE user_id = $1 ORDER BY up.created_at DESC`;
     const result = await pool.query(query, [userId]);
     console.log("🚀 ~ getUserPrescriptions ~ result:", result.rows);
 

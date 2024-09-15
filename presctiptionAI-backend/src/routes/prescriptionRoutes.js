@@ -18,7 +18,7 @@ router.post(
     prescriptionController.savePrescriptions
 );
 
-router.get(
+router.post(
     '/get-user-prescription', 
     // authMiddleware.isAuthenticated,
     prescriptionController.getUserPrescriptions
