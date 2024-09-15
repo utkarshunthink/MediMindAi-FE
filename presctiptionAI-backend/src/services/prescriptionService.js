@@ -38,7 +38,9 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
         //call claude api
         const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
         console.log("🚀 ~ getUserPrescriptionsWithPastData ~ newPrescriptions:", newPrescriptions);
-        await prescriptionModel.savePrescriptions(newPrescriptions);
+        const prescriptionId = await prescriptionModel.savePrescriptions(newPrescriptions);
+        await prescriptionModel.saveUsersPrescriptions(prescriptionId.id, userDetails.userId);
+
         
         emailService.sendEmail(userDetails, newPrescriptions);
 
