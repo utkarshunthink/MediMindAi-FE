@@ -110,3 +110,11 @@ input{
     cursor: not-allowed;
   }
 }
+
+
+
+.custom-ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

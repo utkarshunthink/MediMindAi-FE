@@ -6,11 +6,12 @@ import { PARAGRAPHS } from "src/app/core/constants/paragraphs.constant";
 import { TITLES } from "src/app/core/constants/title.constant";
 import { Prescription } from "src/app/core/dtos/prescription.dto";
 import { DataManagementComponent } from "../data-management/data-management.component";
+import { PrescriptionComponent } from "../prescription/prescription.component";
 
 @Component({
     selector: 'app-prescription-popup',
     standalone: true,
-    imports: [ CommonModule, DataManagementComponent ],
+    imports: [ CommonModule, DataManagementComponent, PrescriptionComponent ],
     templateUrl: './prescription-popup.component.html',
     styleUrls: ['./prescription-popup.component.scss'],
 })

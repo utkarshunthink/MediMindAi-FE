@@ -8,7 +8,7 @@
         font-weight: 700;
 
     }
-    .patient-profile{
+    .prescription-container{
         border: 1px solid var(--white-shade);
         border-radius: 12px;
         padding: 10px 20px;
@@ -16,6 +16,9 @@
         align-items: center;
         justify-content: start;
         gap: 20px;
+    }
+    .patient-profile{
+        
         .patient-img{
             border-radius: 50%;
             background: var(--secondary-color);
@@ -40,13 +43,6 @@
         }
     }
     .prescription-info{
-        border: 1px solid var(--white-shade);
-        border-radius: 12px;
-        padding: 10px 20px;
-        display: flex;
-        align-items: center;
-        justify-content: start;
-        gap: 20px;
         line-height: 25px;
         .description{
             .title{
@@ -54,6 +50,46 @@
             }
             .label{
                 font-size: 14px;
+            }
+        }
+    }
+    .precautions-info{
+        .title{
+            color: var(--primary-color);
+        }
+        ul{
+            padding-left: 13px;
+            font-size: 14px;
+        }
+    }
+    .no-wrap{
+        width: 100%;
+        white-space: nowrap;
+        .doctors-info{
+            overflow: scroll;
+            .nearby-doctor{
+                width: 200px;
+                height: fit-content;
+                background: var(--secondary-color);
+                padding: 20px;
+                border-radius: 8px;
+                .doctor-name{
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    img{
+                        border-radius: 50%;
+                        border: 1px solid #b9b6b6;
+                        width: 12px;
+                    }
+                }
+                .rating{
+                    font-size: 14px;
+                }
+                .timings{
+                    font-size: 14px;
+                }
             }
         }
     }

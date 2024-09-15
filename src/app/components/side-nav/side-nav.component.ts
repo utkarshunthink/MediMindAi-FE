@@ -7,6 +7,7 @@ import {
   SIDE_NAV_MENU_ITEMS,
 } from 'src/app/core/constants/side-nav.constant';
 import { SideNavMenuItem } from 'src/app/core/interfaces';
+import { ApiService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-side-nav',
@@ -19,7 +20,7 @@ export class SideNavComponent implements OnInit {
   public images = IMAGES;
   menuItems: SideNavMenuItem[] = [];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.menuItems = SIDE_NAV_MENU_ITEMS.map((item) => {
@@ -33,12 +34,14 @@ export class SideNavComponent implements OnInit {
   }
 
   onLogoClick() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('home/dashboard');
   }
 
   onMenuClick(menuItem: SideNavMenuItem) {
     if (menuItem.route === null) {
-      // code for logout
+      this.apiService.logout().then(res=>{
+        this.router.navigate(['']);
+      }).catch(err=> {});
       return;
     }
     this.router.navigateByUrl(menuItem.route);

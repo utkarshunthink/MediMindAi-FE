@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { Component, Input } from '@angular/core';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
-import { CommonModule } from "@angular/common";
 import { IMAGES } from 'src/app/core/constants/images.constant';
+import { Prescription } from "src/app/core/dtos/prescription.dto";
 
 @Component({
   selector: 'app-prescription',
@@ -12,72 +13,10 @@ import { IMAGES } from 'src/app/core/constants/images.constant';
   styleUrls: ['./prescription.component.scss'],
 })
 export class PrescriptionComponent {
+  @Input() prescription!: Prescription;
   public images = IMAGES;
   public pdfVisible = false; // Control visibility of PDF content
 
-  // Sample prescription data
-  prescriptionData = {
-    medicines: [
-      {
-        medicineName: "Paracetamol",
-        saltName: "Acetaminophen",
-        dosage: "500mg",
-        description: "For fever and body ache",
-        numberOfDays: "5"
-      },
-      {
-        medicineName: "Dextromethorphan",
-        saltName: "Dextromethorphan Hydrobromide",
-        dosage: "15mg",
-        description: "For cough suppression",
-        numberOfDays: "7"
-      }
-    ],
-    symptoms: "cough & fever & bodyache",
-    precautions: [
-      "Rest and stay hydrated",
-      "Cover mouth when coughing",
-      "Avoid close contact with others"
-    ],
-    dietPlan: [
-      "Drink warm soups and broths",
-      "Eat fruits rich in Vitamin C",
-      "Consume warm herbal teas"
-    ],
-    homeRemedies: [
-      "Gargle with warm salt water",
-      "Use a humidifier",
-      "Drink honey and lemon tea"
-    ],
-    description: "Common cold with fever and body ache",
-    nearbyDoctors: [
-      {
-        doctorname: "Dr. Sharma",
-        rating: "4.5",
-        timings: "9:00 AM - 5:00 PM"
-      },
-      {
-        doctorname: "Dr. Patel",
-        rating: "4.2",
-        timings: "10:00 AM - 6:00 PM"
-      },
-      {
-        doctorname: "Dr. Singh",
-        rating: "4.7",
-        timings: "8:00 AM - 4:00 PM"
-      },
-      {
-        doctorname: "Dr. Gupta",
-        rating: "4.3",
-        timings: "11:00 AM - 7:00 PM"
-      },
-      {
-        doctorname: "Dr. Kumar",
-        rating: "4.6",
-        timings: "9:30 AM - 5:30 PM"
-      }
-    ]
-  };
   async downloadPDF() {
     const data = document.getElementById('pdf-content');
     if (!data) {

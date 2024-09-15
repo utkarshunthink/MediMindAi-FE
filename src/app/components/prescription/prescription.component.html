@@ -1,16 +1,21 @@
 <div id="pdf-content" class="pdf-container hidden-pdf-content">
   <header class="header">
     <h1>
-      <img [src]="images.appLogo" alt="Company Logo" class="logo" style="vertical-align: middle;" />
+      <img
+        [src]="images.appLogo"
+        alt="Company Logo"
+        class="logo"
+        style="vertical-align: middle"
+      />
       Medimind AI Prescription
     </h1>
     <h3>Suggested Based on Your Responses</h3>
-    <p>{{ prescriptionData.description }}</p>
+    <p>{{ prescription.description }}</p>
   </header>
 
   <section class="symptoms-section">
     <h3>Symptoms</h3>
-    <p>{{ prescriptionData.symptoms }}</p>
+    <p>{{ prescription.symptoms }}</p>
   </section>
 
   <section class="medicines-section">
@@ -26,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let medicine of prescriptionData.medicines">
+        <tr *ngFor="let medicine of prescription.medicines">
           <td>{{ medicine.medicineName }}</td>
           <td>{{ medicine.saltName }}</td>
           <td>{{ medicine.dosage }}</td>
@@ -40,21 +45,23 @@
   <section class="precautions-section">
     <h3>Precautions</h3>
     <ul>
-      <li *ngFor="let precaution of prescriptionData.precautions">{{ precaution }}</li>
+      <li *ngFor="let precaution of prescription.precautions">
+        {{ precaution }}
+      </li>
     </ul>
   </section>
 
   <section class="diet-plan-section">
     <h3>Diet Plan</h3>
     <ul>
-      <li *ngFor="let item of prescriptionData.dietPlan">{{ item }}</li>
+      <li *ngFor="let item of prescription.dietPlan">{{ item }}</li>
     </ul>
   </section>
 
   <section class="home-remedies-section">
     <h3>Home Remedies</h3>
     <ul>
-      <li *ngFor="let remedy of prescriptionData.homeRemedies">{{ remedy }}</li>
+      <li *ngFor="let remedy of prescription.homeRemedies">{{ remedy }}</li>
     </ul>
   </section>
 
@@ -69,8 +76,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let doctor of prescriptionData.nearbyDoctors">
-          <td>{{ doctor.doctorname }}</td>
+        <tr
+          *ngFor="let doctor of prescription.nearby5DoctorAccordingToMySymptom"
+        >
+          <td>{{ doctor.doctorName }}</td>
           <td>{{ doctor.rating }}</td>
           <td>{{ doctor.timings }}</td>
         </tr>
