@@ -56,19 +56,19 @@ async function getUserTokens(userId) {
     return result.rows[0];
 }
 
-async function insertUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth, waist) {
+async function insertUserDetails(userId, gender, height, weight, chest, hips, date_of_birth, waist) {
     const query = `
       INSERT INTO user_details (user_id, gender, height, weight, chest, hips, date_of_birth, waist)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *;
     `;
 
-    const values = [userId, gender, height, weight, chest, hips, dateOfBirth, waist];
+    const values = [userId, gender, height, weight, chest, hips, date_of_birth, waist];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
 
-  async function updateUserDetails(gender, height, weight, chest, hips, dateOfBirth, waist, userId) {
+  async function updateUserDetails(gender, height, weight, chest, hips, date_of_birth, waist, userId) {
     const query = `
     UPDATE user_details
     SET gender = $1,
@@ -81,7 +81,7 @@ async function insertUserDetails(userId, gender, height, weight, chest, hips, da
     WHERE user_id = $8;
   `;
 
-  const values = [gender, height, weight, chest, hips, dateOfBirth, waist, userId];
+  const values = [gender, height, weight, chest, hips, date_of_birth, waist, userId];
     const result = await pool.query(query, values);
     return result.rows[0];
   }
