@@ -1,13 +1,15 @@
 import { CommonModule } from "@angular/common";
 import { Component, Inject, OnInit } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { LOCAL_STORAGE_KEYS } from "src/app/core/constants";
 import { BUTTONS } from "src/app/core/constants/buttons.constant";
+import { IMAGES } from "src/app/core/constants/images.constant";
 import { PARAGRAPHS } from "src/app/core/constants/paragraphs.constant";
 import { TITLES } from "src/app/core/constants/title.constant";
 import { Prescription } from "src/app/core/dtos/prescription.dto";
+import { LocalStorageService } from "src/app/core/services";
 import { DataManagementComponent } from "../data-management/data-management.component";
 import { PrescriptionComponent } from "../prescription/prescription.component";
-import { IMAGES } from "src/app/core/constants/images.constant";
 
 @Component({
     selector: 'app-prescription-popup',
@@ -26,21 +28,24 @@ import { IMAGES } from "src/app/core/constants/images.constant";
     public titles = TITLES;
     public paragraphs = PARAGRAPHS;
     public images = IMAGES;
+    public userInfo: any = null;
 
     constructor(@Inject(MAT_DIALOG_DATA) public prescription: Prescription,
+    private localstorage: LocalStorageService,
                 private matDialogueRef: MatDialogRef<PrescriptionPopupComponent>,) {
       this.synth = window.speechSynthesis;
     }
 
     ngOnInit(): void {
-      console.log(this.prescription);
+      this.userInfo = this.localstorage.getItem(LOCAL_STORAGE_KEYS.USER_INFO);
       this.prompt= this.createSpeechPrompt(this.prescription);
       this.speak(this.prompt);
+      
     }
 
     createSpeechPrompt(prescription: Prescription): string {
       return `
-Hello Prince, I am your Medimix assistant. Based on your input, are the details regarding prescription.
+Hello ${this.userInfo.name}, I am your Medimix assistant. Based on your input, are the details regarding prescription.
 You have prescribed medication to address the following condition: ${prescription.description}. You may be experiencing symptoms such as ${prescription.symptoms}.
 To support your recovery, it is important to follow a specific diet plan, which includes ${prescription.dietPlan.join(', ')}. Additionally, you can consider some effective home remedies such as ${prescription.homeRemedies.join(', ')}.
 Please remember to take necessary precautions, which include ${prescription.precautions.join(', ')}.

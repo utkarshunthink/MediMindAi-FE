@@ -1,21 +1,21 @@
 <div class="button-container">
   <button (click)="speak(prompt)" *ngIf="!isSpeaking">
-    <img [src]='images.play' alt="Play"/>
+    <img [src]="images.play" alt="Play" />
   </button>
   <button (click)="pauseSpeech()" *ngIf="isSpeaking">
-    <img [src]='images.pause' alt="Pause"/>
+    <img [src]="images.pause" alt="Pause" />
   </button>
 </div>
-
+<app-prescription [prescription]="prescription"></app-prescription>
 <div class="prescription" *ngIf="prescription">
   <div class="patient-profile prescription-container">
     <div class="patient-img">
       <img src="../../../assets/images/icons/patient-profile.svg" />
     </div>
     <div class="patient-info">
-      <h3>Abhinav Singh</h3>
-      <h5>21 years old</h5>
-      <h5>80 KG</h5>
+      <h3>{{ userInfo.name }}</h3>
+      <!-- <h5>{{userInfo.date_of_birth}} years old</h5> -->
+      <h5>{{ userInfo.weight }} KG</h5>
     </div>
   </div>
   <div class="prescription-info prescription-container" *ngIf="prescription">

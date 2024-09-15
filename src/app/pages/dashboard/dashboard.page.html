@@ -17,7 +17,7 @@
                 />
               </div>
               <div class="text-container">
-                <h5 class="card-title">{{ metric.title }}</h5>
+                <h5 class="card-title">{{ metric.title | titlecase }}</h5>
               </div>
             </div>
 
@@ -27,7 +27,7 @@
             </div>
 
             <span class="badge" [ngStyle]="{'background-color': metric.bgColor}"
-              >{{ metric.status }}</span
+              >{{ getStatus(metric) }}</span
             >
             <mat-progress-bar
               *ngIf="isGoogleFit"
@@ -40,7 +40,7 @@
       </div>
 
       <div class="activity-growth">
-        <app-activity-growth-chart></app-activity-growth-chart>
+        <app-activity-growth-chart [data]="barData"></app-activity-growth-chart>
       </div>
 
       <div
@@ -74,7 +74,8 @@
           <img [src]="images.scale" alt="" />
           <div class="height-weight-value">
             <label>{{titles.height}}</label>
-            <span>{{height}}cm</span>
+            <span *ngIf="userInfo">{{height}}cm</span>
+            <span *ngIf="!userInfo">{{height}}cm</span>
           </div>
         </div>
         <div class="height-weight weight">
