@@ -174,12 +174,12 @@ const fetchGoogleFitData = async (req, res, next) => {
     try {
 
         let numberOfDaysList = [1];
-        const fitDataList = [];
-
+        
         if (req?.params?.numberOfDaysList) {
             numberOfDaysList = req?.params?.numberOfDaysList.split(',');
         }
-
+        
+        const fitDataList = [];
         for(i = 0; i < numberOfDaysList.length; i++){
     
             // Create the request body with only available data types and the specified duration
@@ -190,7 +190,49 @@ const fetchGoogleFitData = async (req, res, next) => {
                 userId: 'me',
                 requestBody: requestBody
             });
-            fitDataList.push(response.data);
+            const fitBucket = response.data.bucket;
+            const bucketList = [];
+            fitBucket.forEach(bucket => {
+                const output = {
+                    fromDate: bucket.startTimeMillis,
+                    toDate: bucket.endTimeMillis,
+                    step: 0,
+                    sleep: 0,
+                    calories: 0,
+                    heartRate: 0,
+                    activeMinutes: 0,
+                    activitySegment: 0,
+                };
+                bucket.dataset.forEach(data => {
+                    const dataSourceId = data.dataSourceId;
+                    let sum = 0;
+            
+                    data.point.forEach(point => {
+                        point.value.forEach(val => {
+                            sum += val.intVal || val.fpVal || 0;
+                        });
+                    });
+            
+                    if (dataSourceId.includes("step_count.delta")) {
+                        output.step = sum;
+                    } else if (dataSourceId.includes("active_minutes")) {
+                        output.activeMinutes = sum;
+                    } else if (dataSourceId.includes("activity.summary")) {
+                        output.activitySegment = sum;
+                    } else if (dataSourceId.includes("sleep.segment")) {
+                        output.sleep = sum;
+                    } else if (dataSourceId.includes("heart_rate.summary")) {
+                        output.heartRate = sum;
+                    } else if (dataSourceId.includes("calories.expended")) {
+                        output.calories = sum;
+                    }
+                });
+                bucketList.push(output);
+            })
+            fitDataList.push({
+                numberOfDays: numberOfDaysList[i],
+                fitData: bucketList
+            });
         }
 
         if(!fitDataList.length){
