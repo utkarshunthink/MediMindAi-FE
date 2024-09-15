@@ -41,8 +41,8 @@ export class LandingPage {
     });
   }
 
-  scrollToSection(): void{
-    const ele = document.getElementById("login-section") as HTMLElement;
+  scrollToSection(section:any): void{
+    const ele = document.getElementById(section) as HTMLElement;
     ele.scrollIntoView({ behavior: "smooth" });
   }
 

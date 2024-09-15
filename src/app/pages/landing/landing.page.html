@@ -1,19 +1,19 @@
 <div class="main-content">
   <div class="header">
     <div class="header-left">
-      <div class="logo"><img [src]="images.appLogo" /></div>
+      <div class="logo"><img [src]="images.appLogo" alt=""/></div>
       <h3>{{titles.mediMindAI}}</h3>
     </div>
     <div class="header-right">
-      <h4>{{titles.searchMedicine}}</h4>
-      <h4 (click)="scrollToSection()">{{titles.loginSignup}}</h4>
+      <h4 (click)="scrollToSection('medicine-section')">{{titles.searchMedicine}}</h4>
+      <h4 (click)="scrollToSection('login-section')">{{titles.loginSignup}}</h4>
     </div>
   </div>
   <div class="main-card">
     <div class="main-card-left">
       <h1>{{titles.landingPageTitle}}</h1>
       <p>{{paragraphs.landingPagePara}}</p>
-      <button class="primary-btn" (click)="scrollToSection()">
+      <button class="primary-btn" (click)="scrollToSection('login-section')">
         {{buttons.getStarted}}
       </button>
     </div>
@@ -30,7 +30,7 @@
   <div class="divider"></div>
   <div class="login-card" id="login-section">
     <div class="login-image">
-      <img [src]="images.loginPrescription" />
+      <img [src]="images.loginPrescription" alt=""/>
     </div>
     <div class="login-form">
       <app-login *ngIf="isLogin" (onSwitch)="onLoginChange($event)"></app-login>
@@ -42,7 +42,7 @@
   </div>
   <div class="divider"></div>
   <div class="search-medicine">
-    <div class="search-med-head">Search Medicines</div>
+    <div class="search-med-head" id="medicine-section">Search Medicines</div>
     <div class="search-input">
       <input
         type="text"
