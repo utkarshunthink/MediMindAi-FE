@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const { google } = require('googleapis');
 
 const prescriptionController = require('../controllers/prescriptionController')
 
@@ -9,9 +7,27 @@ const authMiddleware = require('../middlewares/authMiddleware');
 
 
 router.get(
-    '/get-prescriptions', 
+    '/get-prescription/:id', 
     // authMiddleware.isAuthenticated,
     prescriptionController.getPrescriptions
+);
+
+router.post(
+    '/store', 
+    // authMiddleware.isAuthenticated,
+    prescriptionController.savePrescriptions
+);
+
+router.get(
+    '/get-user-prescription', 
+    // authMiddleware.isAuthenticated,
+    prescriptionController.getUserPrescriptions
+);
+
+router.post(
+    '/get-user-prescription-with-past-symptoms', 
+    // authMiddleware.isAuthenticated,
+    prescriptionController.getUserPrescriptionsWithPastData
 );
 
 
