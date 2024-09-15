@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { LOCAL_STORAGE_KEYS } from 'src/app/core/constants';
 import { IMAGES } from 'src/app/core/constants/images.constant';
@@ -67,8 +67,8 @@ export class DashboardPage {
   public userInfo: any = null;
 
   constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute,
-    private localStorage: LocalStorageService) {
-    
+    private localStorage: LocalStorageService, private router: Router) {
+
   }
 
   ngOnInit(){
@@ -82,15 +82,19 @@ export class DashboardPage {
 
   getProfile(){
     this.apiService.getProfileData().then((res: any)=>{
-      this.userInfo = res.data;
-      this.localStorage.setItem(LOCAL_STORAGE_KEYS.USER_INFO, this.userInfo);
-      this.weight = Number(Number(this.userInfo.weight).toFixed(0));
-      this.height = Number(Number(this.userInfo.height).toFixed(0));
+      if(res && res.data){
+        this.userInfo = res.data;
+        this.localStorage.setItem(LOCAL_STORAGE_KEYS.USER_INFO, this.userInfo);
+        this.weight = Number(Number(this.userInfo.weight).toFixed(0));
+        this.height = Number(Number(this.userInfo.height).toFixed(0));
+      }else {
+        this.router.navigate(['/home/profile']);
+      }
       this.calculateBMI();
       this.updateBMIStatus();
     })
   }
-  
+
 
   getBmiProgressBarValue() {
     const inputValue = 24.9;
@@ -124,7 +128,7 @@ export class DashboardPage {
   }
 
   getPreviousPrescription(){
-    this.apiService.getPreviousPrescription(1).then((res: PreviousPrescription)=>{
+    this.apiService.getPreviousPrescription().then((res: PreviousPrescription)=>{
       console.log(res);
       this.previousPrescription = res.data.userPrescription[0];
     }).catch(err=> console.log(err));
@@ -174,10 +178,10 @@ export class DashboardPage {
 
       this.genBarData(res.data[0]);
     })
-    
-    
-    
-    
+
+
+
+
 
   }
 

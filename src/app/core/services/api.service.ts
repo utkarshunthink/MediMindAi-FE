@@ -15,8 +15,8 @@ export class ApiService {
     return this.httpService.get(this.baseUrl+API_CONSTANTS.logout);
   }
 
-  getPreviousPrescription(userId: number): Promise<any>{
-    return this.httpService.post(this.baseUrl+`prescription/get-user-prescription?userId=${userId}`, {});
+  getPreviousPrescription(): Promise<any>{
+    return this.httpService.post(this.baseUrl+`prescription/get-user-prescription`, {});
   }
 
   searchMedicines(searchString: string, pageSize: number, pageNumber: number){
