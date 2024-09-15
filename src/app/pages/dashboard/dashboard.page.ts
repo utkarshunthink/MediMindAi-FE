@@ -1,8 +1,9 @@
 import { NgFor, NgStyle } from '@angular/common';
-import { Component,ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { IMAGES } from 'src/app/core/constants/images.constant';
 import { TITLES } from 'src/app/core/constants/title.constant';
+import { ApiService } from 'src/app/core/services';
 import { ActivityGrowthChartComponent } from '../activity-growth-chart/activity-growth-chart.component';
 
 @Component({
@@ -11,7 +12,6 @@ import { ActivityGrowthChartComponent } from '../activity-growth-chart/activity-
   imports: [MatProgressBarModule,NgFor,MatProgressBarModule,NgStyle,ActivityGrowthChartComponent],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class DashboardPage {
   public titles = TITLES;
@@ -53,6 +53,7 @@ export class DashboardPage {
     }
   ];
 
+  constructor(private apiService: ApiService){}
 
   getBmiProgressBarValue() {
     const inputValue = 24.9;
@@ -77,6 +78,16 @@ export class DashboardPage {
 
   clamp(value: number, min: number, max: number): number {
     return Math.min(Math.max(value, min), max);
+  }
+
+  ngOnInit(){
+    this.getPreviousPrescription();
+  }
+
+  getPreviousPrescription(){
+    this.apiService.getPreviousPrescription(1).then(res=>{
+      console.log(res);
+    }).catch(err=> console.log(err));
   }
 
 }

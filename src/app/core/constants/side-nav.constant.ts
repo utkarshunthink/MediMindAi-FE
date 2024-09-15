@@ -8,21 +8,21 @@ export const SIDE_NAV_MENU_ITEMS: SideNavMenuItem[] = [
     route: '/home/dashboard',
     icon: 'dashboard',
   },
-  {
-    name: 'calendar',
-    route: '/home/calendar',
-    icon: 'calendar',
-  },
+  // {
+  //   name: 'calendar',
+  //   route: '/home/calendar',
+  //   icon: 'calendar',
+  // },
   {
     name: 'chat',
     route: '/home/chat',
     icon: 'chat',
   },
-  {
-    name: 'analytics',
-    route: '/home/analytics',
-    icon: 'analytics',
-  },
+  // {
+  //   name: 'analytics',
+  //   route: '/home/analytics',
+  //   icon: 'analytics',
+  // },
   {
     name: 'profile',
     route: '/home/profile',
