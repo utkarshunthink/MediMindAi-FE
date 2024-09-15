@@ -56,15 +56,44 @@ async function getUserTokens(userId) {
     return result.rows[0];
 }
 
-async function updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth) {
+async function insertUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth, waist) {
     const query = `
-      INSERT INTO user_details (user_id, gender, height, weight, chest, hips, date_of_birth)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO user_details (user_id, gender, height, weight, chest, hips, date_of_birth, waist)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *;
     `;
-    const values = [userId, gender, height, weight, chest, hips, dateOfBirth];
+
+    const values = [userId, gender, height, weight, chest, hips, dateOfBirth, waist];
     const result = await pool.query(query, values);
     return result.rows[0];
+  }
+
+  async function updateUserDetails(gender, height, weight, chest, hips, dateOfBirth, waist, userId) {
+    const query = `
+    UPDATE user_details
+    SET gender = $1,
+        height = $2,
+        weight = $3,
+        chest = $4,
+        hips = $5,
+        date_of_birth = $6,
+        waist = $7
+    WHERE user_id = $8;
+  `;
+
+  const values = [gender, height, weight, chest, hips, dateOfBirth, waist, userId];
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  }
+
+
+async function checkIfUserDetailsExist(userId) {
+    const query = `
+      SELECT * FROM user_details WHERE user_id = $1;
+    `;
+
+    const result = await pool.query(query, [userId]);
+    return result.rows;
   }
 
   const getUserDetails = async (userId) => {
@@ -86,5 +115,7 @@ module.exports = {
     findOrCreateUser,
     getUserTokens,
     updateUserDetails,
-    getUserDetails
+    insertUserDetails,
+    getUserDetails,
+    checkIfUserDetailsExist
 };

@@ -245,10 +245,15 @@ const sendDataTFrontend = (req, res) => {
     res.redirect(frontendURL);
 }
 
-const updateUserDetails = async (userId, gender, height, weight, chest, hips, dateOfBirth) => {
+const updateUserDetails = async (userId, gender, height, weight, chest, hips, dateOfBirth, waist) => {
     try {
-        const result = await userModel.updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth)
-        console.log("🚀 ~ updateUserDetails ~ result:", result);
+        const ifPresent = await userModel.checkIfUserDetailsExist(userId);
+        console.log("🚀 ~ updateUserDetails ~ ifPresent:", ifPresent, ifPresent.length);
+        if(ifPresent.length ){
+
+            return await userModel.updateUserDetails(gender, height, weight, chest, hips, dateOfBirth, waist, userId)            
+        }
+        const result = await userModel.insertUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth, waist);
 
         return result;
     } catch (error) {

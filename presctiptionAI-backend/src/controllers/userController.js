@@ -51,9 +51,9 @@ const sendDataTFrontend = async = (req, res, next) => {
 }
 
 const updateUserDetails = async (req, res, next) => {
-    const {gender, height, weight, chest, hips, dateOfBirth } = req.body;
+    const {gender, height, weight, chest, hips, dateOfBirth, waist } = req.body;
     const userId = req.user.userId;
-    return userService.updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth)
+    return userService.updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth, waist)
     .then((result) => successResponse(res, result, 'User details updated successfully', 201))
     .catch((next));
 };
