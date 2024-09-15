@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { PlotlyModule } from 'angular-plotly.js';
 import * as PlotlyJS from 'plotly.js-dist-min';
 
@@ -13,26 +13,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
   styleUrls: ['./activity-growth-chart.component.scss']
 })
 export class ActivityGrowthChartComponent {
-  public data: any[] = [
-    {
-      x: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      y: [5000, 6000, 7000, 8000, 9000, 10000, 11000],
-      type: 'bar',
-      name: 'Exercise',
-    },
-    {
-      x: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      y: [3000, 3500, 4000, 4500, 5000, 5500, 6000],
-      type: 'bar',
-      name: 'Running',
-    },
-    {
-      x: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      y: [2000, 2500, 3000, 3500, 4000, 4500, 5000],
-      type: 'bar',
-      name: 'Meditation',
-    }
-  ];
+  @Input() data: any[] = [];
 
   public layout: any = {
     title: 'Activity Growth',

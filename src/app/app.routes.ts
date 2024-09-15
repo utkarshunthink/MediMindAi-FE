@@ -11,7 +11,6 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.page').then((p) => p.HomePage),
-      canActivate: [AuthGuard], // Apply AuthGuard here
     children: [
       {
         path: 'dashboard',
@@ -24,11 +23,13 @@ export const routes: Routes = [
         path: 'chat',
         loadComponent: () =>
           import('./pages/chat/chat.page').then((p) => p.ChatPage),
+        canActivate: [AuthGuard]
       },
       {
         path: 'profile',
         loadComponent: () =>
           import('./pages/profile/profile.page').then((p) => p.ProfilePage),
+        canActivate: [AuthGuard]
       },
       {
         path: '**',
@@ -36,6 +37,7 @@ export const routes: Routes = [
           import('./pages/coming-soon/coming-soon.page').then(
             (m) => m.ComingSoonPage
           ),
+          canActivate: [AuthGuard]
       },
     ],
   },

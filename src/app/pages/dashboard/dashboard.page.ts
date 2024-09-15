@@ -1,7 +1,8 @@
-import { DatePipe, NgFor, NgIf, NgStyle } from '@angular/common';
+import { CommonModule, DatePipe, NgFor, NgIf, NgStyle } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { LOCAL_STORAGE_KEYS } from 'src/app/core/constants';
 import { IMAGES } from 'src/app/core/constants/images.constant';
 import { TITLES } from 'src/app/core/constants/title.constant';
@@ -12,34 +13,23 @@ import { ActivityGrowthChartComponent } from '../activity-growth-chart/activity-
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [MatProgressBarModule, NgIf, NgFor,MatProgressBarModule,NgStyle,ActivityGrowthChartComponent, DatePipe],
+  imports: [CommonModule, MatProgressBarModule, NgIf, NgFor,MatProgressBarModule,NgStyle,ActivityGrowthChartComponent, DatePipe],
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage {
   public titles = TITLES;
   public images = IMAGES;
-  public weight: number;
-  public height: number;
-  public bmiValue: number;
-  public bmiStatus: string;
-
-  constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute,
-    private localStorage: LocalStorageService) {
-    this.weight = 1000; // Default weight
-    this.height = 199; // Default height
-    this.bmiValue = 0; // Default BMI
-    this.bmiStatus = ''; // Default status
-    this.calculateBMI();
-    this.updateBMIStatus();
-  }
-
-
+  public weight: number = 0;
+  public height: number = 0;
+  public bmiValue: number = 0;
+  public bmiStatus: string = '';
+  public barData: any = null;
   public healthMetrics = [
     {
       title: "Step",
       value: 0,
-      unit:"mg/dL",
+      unit:"Steps",
       progress: 0,
       status: "Normal",
       icon: 'assets/images/icons/sugar.svg',
@@ -59,9 +49,9 @@ export class DashboardPage {
       maxValue: 10000 // Upper limit for heart rate
     },
     {
-      title: "activeMinutes",
+      title: "Active Minutes",
       value: 0,
-      unit:'USG',
+      unit:'Mins',
       progress: 0,
       status: "Normal",
       icon: 'assets/images/icons/blood-pressure.svg', // Path to the image
@@ -74,6 +64,33 @@ export class DashboardPage {
   public previousPrescription!: PreviousPrescriptionData;
   public googleFit: any = {};
   public isGoogleFit: boolean = false;
+  public userInfo: any = null;
+
+  constructor(private apiService: ApiService, private activatedRoute: ActivatedRoute,
+    private localStorage: LocalStorageService) {
+    
+  }
+
+  ngOnInit(){
+    this.activatedRoute.queryParams.subscribe(res=>{
+      if(res['token']) this.localStorage.setItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, res['token']);
+      this.getGoogleFit();
+      this.getPreviousPrescription();
+      this.getProfile();
+    })
+  }
+
+  getProfile(){
+    this.apiService.getProfileData().then((res: any)=>{
+      this.userInfo = res.data;
+      this.localStorage.setItem(LOCAL_STORAGE_KEYS.USER_INFO, this.userInfo);
+      this.weight = Number(Number(this.userInfo.weight).toFixed(0));
+      this.height = Number(Number(this.userInfo.height).toFixed(0));
+      this.calculateBMI();
+      this.updateBMIStatus();
+    })
+  }
+  
 
   getBmiProgressBarValue() {
     const inputValue = 24.9;
@@ -104,16 +121,6 @@ export class DashboardPage {
       value = min;
     } else if (value > max) { value = max;}
     return ((value - min) / (max - min)) * 100;
-  }
-
-  ngOnInit(){
-    this.activatedRoute.queryParams.subscribe(res=>{
-      if(res['token']) this.localStorage.setItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN, res['token']);
-      this.getGoogleFit();
-      // this.getPreviousPrescription();
-    })
-    
-    
   }
 
   getPreviousPrescription(){
@@ -153,51 +160,66 @@ export class DashboardPage {
       return this.images.humanBodyFat; // Overweight or Obesity
     }
   }
+
   getGoogleFit(){
-    // this.apiService.getGoogleFit('2').then((res)=>{
-    //   console.log('res:', res);
-    // })
-    this.isGoogleFit = true;
-    const res = {
-      "success": true,
-      "message": "Google Fit data fetched Data successfully",
-      "data": [
-          {
-              "numberOfDays": "2",
-              "fitData": [
-                  {
-                      "fromDate": "1726206663448",
-                      "toDate": "1726293063448",
-                      "step": 5509,
-                      "sleep": 0,
-                      "calories": 1635.7500268220904,
-                      "heartRate": 0,
-                      "activeMinutes": 64,
-                      "activitySegment": 0
-                  },
-                  {
-                      "fromDate": "1726293063448",
-                      "toDate": "1726379463448",
-                      "step": 908,
-                      "sleep": 0,
-                      "calories": 1533.9967016533426,
-                      "heartRate": 0,
-                      "activeMinutes": 137,
-                      "activitySegment": 277938
-                  }
-              ]
-          }
-      ]
-    }
-    this.googleFit = res.data[0].fitData[res.data[0].fitData.length-1];
+    this.apiService.getGoogleFit('2').then((res: any)=>{
+      this.isGoogleFit = true;
+      this.googleFit = res.data[0].fitData[res.data[0].fitData.length-1];
+      this.healthMetrics[0].value = this.googleFit.step;
+      this.healthMetrics[0].progress = this.googleFit.step;
+      this.healthMetrics[1].value = Number(this.googleFit.calories.toFixed(2));
+      this.healthMetrics[1].progress = Number(this.googleFit.calories.toFixed(2));
+      this.healthMetrics[2].value = this.googleFit.activeMinutes;
+      this.healthMetrics[2].progress = this.googleFit.activeMinutes;
 
-    this.healthMetrics[0].value = this.googleFit.step;
-    this.healthMetrics[0].progress = this.googleFit.step;
-    this.healthMetrics[1].value = Number(this.googleFit.calories.toFixed(2));
-    this.healthMetrics[1].progress = Number(this.googleFit.calories.toFixed(2));
-    this.healthMetrics[2].value = this.googleFit.activeMinutes;
-    this.healthMetrics[2].progress = this.googleFit.activeMinutes;
+      this.genBarData(res.data[0]);
+    })
+    
+    
+    
+    
 
+  }
+
+  genBarData(data: any){
+    const xAxis: string[] = [];
+    const yStpes: number[] = [];
+    const yCalories: number[] = [];
+    const yActiveMins: number[] = [];
+    data.fitData.forEach((res: any)=> xAxis.push(moment(res.fromDate).format('DDDD')));
+    data.fitData.forEach((res: any)=> yStpes.push(res.step));
+    data.fitData.forEach((res: any)=> yCalories.push(res.calories));
+    data.fitData.forEach((res: any)=> yActiveMins.push(res.activeMinutes));
+
+    this.barData = [
+      {
+        x: xAxis,
+        y: yStpes,
+        type: 'bar',
+        name: 'Step',
+      },
+      {
+        x: xAxis,
+        y: yCalories,
+        type: 'bar',
+        name: 'Calories',
+      },
+      {
+        x: xAxis,
+        y: yActiveMins,
+        type: 'bar',
+        name: 'Active Minutes',
+      }
+    ]
+  }
+
+  getStatus(metric: any){
+    console.log('mettric', metric);
+    const percentage = Number(this.clamp(metric.value, metric.minValue, metric.maxValue).toFixed(2));
+    if(percentage<30) return 'Need to improve';
+    if(percentage>30 && percentage<60) return 'Good Work';
+    if(percentage>60) return 'Wooah!!';
+    return percentage;
   }
 
   calculateBMR(weight: number, height: number, age: number, gender: string) {

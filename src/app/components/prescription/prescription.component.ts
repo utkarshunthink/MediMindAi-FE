@@ -2,8 +2,10 @@ import { CommonModule } from "@angular/common";
 import { Component, Input } from '@angular/core';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { LOCAL_STORAGE_KEYS } from "src/app/core/constants";
 import { IMAGES } from 'src/app/core/constants/images.constant';
 import { Prescription } from "src/app/core/dtos/prescription.dto";
+import { LocalStorageService } from "src/app/core/services";
 
 @Component({
   selector: 'app-prescription',
@@ -15,7 +17,12 @@ import { Prescription } from "src/app/core/dtos/prescription.dto";
 export class PrescriptionComponent {
   @Input() prescription!: Prescription;
   public images = IMAGES;
-  public pdfVisible = false; // Control visibility of PDF content
+  public pdfVisible = false;
+  public userInfo: any = null; // Control visibility of PDF content
+
+  constructor(private localstorage: LocalStorageService){
+    this.userInfo = this.localstorage.getItem(LOCAL_STORAGE_KEYS.USER_INFO);
+  }
 
   async downloadPDF() {
     const data = document.getElementById('pdf-content');
