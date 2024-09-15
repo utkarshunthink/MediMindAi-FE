@@ -107,7 +107,6 @@ const setMailOption = (userDetails, prescription) => {
           <div class="content">
               <p>Dear ${userDetails.name},</p>
               <p>Based on your reported symptoms of <strong>cough, fever, and body ache</strong>, here is your AI-generated prescription:</p>
-            <p>${JSON.stringify(prescription)}</p>
               <div class="section">
                   <h2>Medications</h2>
                   <table>
