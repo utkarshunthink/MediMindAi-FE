@@ -129,7 +129,7 @@ const googleLogin = async (params, profile) => {
         user = await userModel.createUser(payload.name, payload.email, null, true);
     }
 
-    payload.userId = user.id;
+    payload.userId = user?.id;
     const token = jwtHelper.generateToken(payload);
     payload.token = token;
 

@@ -52,14 +52,14 @@ const sendDataTFrontend = async = (req, res, next) => {
 
 const updateUserDetails = async (req, res, next) => {
     const {gender, height, weight, chest, hips, dateOfBirth, waist } = req.body;
-    const userId = req.user.userId;
+    const userId = req.user?.userId;
     return userService.updateUserDetails(userId, gender, height, weight, chest, hips, dateOfBirth, waist)
     .then((result) => successResponse(res, result, 'User details updated successfully', 201))
     .catch((next));
 };
 
 const getUserDetails = async = (req, res, next) => {
-    const userId = req.user.userId;
+    const userId = req.user?.userId;
     console.log("🚀 ~ getUserDetails ~ userId:", userId);
     return userService.getUserDetails(userId)
     .then((result) => successResponse(res, result, 'User details fetched successfully', 201))

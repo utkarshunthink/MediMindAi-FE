@@ -118,20 +118,15 @@ const setMailOption = (userDetails, prescription) => {
                           <th>Description</th>
                           <th>Days</th>
                       </tr>
-                      <tr>
-                          <td>Paracetamol</td>
-                          <td>Acetaminophen</td>
-                          <td>500mg</td>
-                          <td>For fever and body ache</td>
-                          <td>5</td>
-                      </tr>
-                      <tr>
-                          <td>Dextromethorphan</td>
-                          <td>Dextromethorphan Hydrobromide</td>
-                          <td>15mg</td>
-                          <td>For cough suppression</td>
-                          <td>7</td>
-                      </tr>
+                      ${prescription[0].medicines.map(med => {
+                        return `
+                            <td>${med.medicineName}</td>
+                            <td>${med.saltName}</td>
+                            <td>${med.dosage}</td>
+                            <td>${med.description}</td>
+                            <td>${med.numberOfDays}</td>
+                        `
+                      })}
                   </table>
               </div>
 
