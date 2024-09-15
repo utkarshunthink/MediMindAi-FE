@@ -13,7 +13,7 @@ export interface Prescription{
 }
 
 export interface PrescriptionWithSymptoms{
-    success: string;
+    success: boolean;
     message: string;
     data: {
         prescriptionWithSymptoms: Prescription;
@@ -21,16 +21,21 @@ export interface PrescriptionWithSymptoms{
 }
 
 export interface PreviousPrescription{
-    success: string;
+    success: boolean;
     message: string;
     data: {
-        // userPrescription: PreviousPrescriptionData[];
+        userPrescription: PreviousPrescriptionData[];
     }
 }
 
-// export interface PreviousPrescriptionData(
-    
-// )
+export interface PreviousPrescriptionData{
+    allergies: string;
+    created_at: string;
+    medicine_type: string;
+    prescription_id: number
+    symptoms: string
+    user_id: number
+}
 
 export interface Medicine{
     medicineName: string;

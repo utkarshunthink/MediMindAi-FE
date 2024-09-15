@@ -18,4 +18,12 @@ export class ApiService {
   getPreviousPrescription(userId: number): Promise<any>{
     return this.httpService.post(environment.apiBaseUrl+`prescription/get-user-prescription?userId=${userId}`, {});
   }
+
+  searchMedicines(searchString: string, pageSize: number, pageNumber: number){
+    return this.httpService.post(environment.apiBaseUrl+`medicines/get-medicines?searchString=${searchString}&pageSize=${pageSize}&pageNumber=${pageNumber}`, {});
+  }
+
+  getGoogleFit(params: string){
+    return this.httpService.post(environment.apiBaseUrl+`users/fetch-fit-data/${params}`, {});
+  }
 }
