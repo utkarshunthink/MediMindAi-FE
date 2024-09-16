@@ -2,19 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const session = require('express-session');
+const dotenv = require('dotenv');
 
 const startupRoutes = require('./startup/routes/startupRoutes')
 const errorHandler = require('./middlewares/errorHandler');
-const authenticate = require('./middlewares/authMiddleware');
-const config = require('./config/config');
 const passport = require('./utils/passportConfig'); 
-const { getAuthUrl, getToken, fetchGoogleFitData } = require('./utils/googleFit');
+
+dotenv.config();
 
 const app = express();
 
 // Session middleware
 app.use(session({
-    secret: config.sessionSecret,
+    secret: process.env.sessionSecret,
     resave: false,
     saveUninitialized: true
 }));
@@ -22,12 +22,6 @@ app.use(session({
 // Initialize Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-// const cors = require('cors');
-// app.use(cors({
-//     origin: 'http://localhost:4200',  // Your frontend origin
-//     credentials: true  // If you're using sessions or cookies
-// }));
 
 const corsOptions = {
     origin: '*', //configurations.pg_mt.allowedOrigins

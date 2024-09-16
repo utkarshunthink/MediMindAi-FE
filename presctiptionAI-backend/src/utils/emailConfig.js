@@ -1,14 +1,17 @@
 
 
 const config = require('../config/config');
+const dotenv = require('dotenv');
 const nodemailer = require('nodemailer');
+// Load environment variables from .env file
+dotenv.config();
 
 // Create a transporter using Gmail OAuth2
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: config.nodemailerConfig.email,       // Your email address
-    pass: config.nodemailerConfig.password,    // Your email password (or app password for Gmail)
+    user: process.env.NODE_MAILER_EMAIL,       // Your email address
+    pass: process.env.NODE_MAILER_PASSWORD,    // Your email password (or app password for Gmail)
   },
 });
 
@@ -21,10 +24,9 @@ const defaultMailContent = {
 
 // Function to create mail options dynamically
 const setMailOption = (userDetails, prescription) => {
-    // console.log("🚀 ~ setMailOption ~ from, to, prescription:", from, to, prescription);
 
   return {
-    from: config.nodemailerConfig.email,  // Sender address
+    from: process.env.NODE_MAILER_EMAIL,  // Sender address
     to: userDetails.email || 'rishabh.vishwakarma@unthinkable.co',      // List of recipients
     subject: defaultMailContent.subject,  // Subject line
     // text: defaultMailContent.text,   // Plain text body

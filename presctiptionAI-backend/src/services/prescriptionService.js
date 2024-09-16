@@ -1,12 +1,11 @@
 const prescriptionModel = require('../models/prescriptionModel');
-const bcrypt = require('bcryptjs');
-const jwtHelper = require('../utils/jwtHelper');
 const ApiError = require('../utils/ApiError');
-const crypto = require('crypto');
-const moment = require('moment');
 const config = require('../config/config');
 const Anthropic = require('@anthropic-ai/sdk');
 const emailService = require('../utils/emailConfig');
+const dotenv = require('dotenv');
+// Load environment variables from .env file
+dotenv.config();
 
 const getPrescriptions = async (id ) => {
     try {        
@@ -46,7 +45,6 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
         }
     };
 
-
     try {        
         // Fetch medicines with pagination
         const prescriptionWithSymptoms = await prescriptionModel.prescriptionWithSymptoms(symptoms, allergies, medicineType);
@@ -58,8 +56,6 @@ const getUserPrescriptionsWithPastData = async (userDetails, symptoms, allergies
                 prescriptionWithSymptoms: prescriptionWithSymptoms[0]
             };
         }
-        //call claude api
-        // const newPrescriptions = await getPrescriptionWithClaudeAI(symptoms, allergies, medicineType);
 
         // Call Claude AI API with retry mechanism
         const newPrescriptions = await retryClaudeAICall(symptoms, allergies, medicineType);
@@ -112,12 +108,12 @@ const getPrescriptionWithClaudeAI = async (symtoms, allergies, medicineType) => 
     const prompt = getPrompt(symtoms, allergies, medicineType)
 
     const anthropic = new Anthropic({
-        apiKey: config.claudeAPIKey, // defaults to process.env["ANTHROPIC_API_KEY"]
+        apiKey: process.env.claudeAPIKey, // defaults to process.env["ANTHROPIC_API_KEY"]
     });
 
     const msg = await anthropic.messages.create({
-        model: "claude-3-5-sonnet-20240620",
-        max_tokens: 1024,
+        model: config.claudeModel,
+        max_tokens: config.maxTokens,
         messages: [{ role: "user", content: prompt }],
     });
 

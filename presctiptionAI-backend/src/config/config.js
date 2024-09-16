@@ -1,21 +1,33 @@
-module.exports.jwtSecret = 'aljnjsnv134213t';
-
-module.exports.sessionSecret = 'fhw982392fwfwq';
-module.exports.callbackURL = 'http://localhost:3000/users/auth/google/callback';
 
 
-module.exports.pg = {
-    user: 'postgres',
-    host: '127.0.01',
-    database: 'prescription-db',
-    password: 'Hrhk@4321',
-    port: 5432,
-};
+module.exports.googleFitScopes = [
+    'https://www.googleapis.com/auth/fitness.activity.read',
+    'https://www.googleapis.com/auth/fitness.heart_rate.read',
+    'https://www.googleapis.com/auth/fitness.location.read',
+    'https://www.googleapis.com/auth/fitness.blood_glucose.read',
+    'https://www.googleapis.com/auth/fitness.blood_pressure.read',
+    'https://www.googleapis.com/auth/fitness.body.read',
+    'https://www.googleapis.com/auth/fitness.body_temperature.read',
+    'https://www.googleapis.com/auth/fitness.nutrition.read',
+    'https://www.googleapis.com/auth/fitness.oxygen_saturation.read',
+    'https://www.googleapis.com/auth/fitness.sleep.read',
+];
 
+module.exports.usersScopes = [
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/userinfo.email',
+]
 
-// config/google.js
-module.exports.googleConfig = {
-    googleClientID: '',
-    googleClientSecret: '',
-    callbackURL: ''
-};
+module.exports.googleFitAggregates = [
+    { dataTypeName: 'com.google.step_count.delta' },
+    { dataTypeName: 'com.google.active_minutes' },
+    { dataTypeName: 'com.google.activity.segment' },
+    { dataTypeName: 'com.google.sleep.segment' },
+    { dataTypeName: 'com.google.heart_rate.bpm' },
+    { dataTypeName: 'com.google.calories.expended' },
+    { dataSourceId: 'derived:com.google.height:com.google.android.gms:merge_height' },
+    { dataSourceId: 'derived:com.google.weight:com.google.android.gms:merge_weight' }
+]
+
+module.exports.claudeModel = 'claude-3-5-sonnet-20240620'
+module.exports.maxTokens = 1024

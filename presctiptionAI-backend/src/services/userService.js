@@ -91,7 +91,6 @@ const userAuthorizeByGoogle = () => {
 
 // Service function to handle the Google OAuth callback
 const handleGoogleCallback = async (req, res) => {
-    console.log("🚀 ~ handleGoogleCallback ~ req:", req.user);
     try {
         // Check if the authentication is successful (you can add custom logic if needed)
         if (!req.user) {

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const { google } = require('googleapis');
 const config = require('../config/config');
 
 const userController = require('../controllers/userController');
